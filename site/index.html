@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Recording, processing, and analysis-preparation documentation" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Fiber Photometry Workflow</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="stylesheets/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> Fiber Photometry Workflow
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#system-at-a-glance">System at a glance</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recommended-reading-order">Recommended reading order</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#important-assumptions">Important assumptions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#building-this-documentation">Building this documentation</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="workflow/">End-to-End Workflow</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="concepts/">Concepts and Background</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="recording/">Online Recording</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="processing/">Processing Pipeline</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="data-formats/">Data Formats</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="api-reference/">API Reference</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="operations/">Operations and Troubleshooting</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Fiber Photometry Workflow</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="fiber-photometry-recording-and-processing">Fiber Photometry Recording and Processing<a class="headerlink" href="#fiber-photometry-recording-and-processing" title="Permanent link">&para;</a></h1>
+<p>This documentation covers the two projects in this workspace:</p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Purpose</th>
+<th>Entry point</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fiber_photometry_recording_202606</code></td>
+<td>Configure the LabJack T7 and external excitation electronics, acquire raw signals, demodulate photodiode signals online, display live plots, and save a session HDF5 file.</td>
+<td><code>python run_fp.py</code></td>
+</tr>
+<tr>
+<td><code>fiber_photometry_processing_pipeline_202605</code></td>
+<td>Validate and trim a recorded session, downsample signals, calculate reference-corrected dF/F, and create files expected by downstream analysis code.</td>
+<td><code>python run_process.py</code></td>
+</tr>
+</tbody>
+</table>
+<div class="doc-card-grid">
+  <a class="doc-card" href="workflow/"><strong>Run a complete session</strong><span>Follow the experiment from channel setup through analysis-ready files.</span></a>
+  <a class="doc-card" href="recording/"><strong>Understand recording</strong><span>LabJack streaming, hardware programming, threads, plots, and HDF5 logging.</span></a>
+  <a class="doc-card" href="processing/"><strong>Process the data</strong><span>Pulse QC, resampling, reference regression, dF/F, and compatibility exports.</span></a>
+  <a class="doc-card" href="concepts/"><strong>Learn the signal concepts</strong><span>Try an interactive lock-in demo and learn why each module exists.</span></a>
+</div>
+
+<h2 id="system-at-a-glance">System at a glance<a class="headerlink" href="#system-at-a-glance" title="Permanent link">&para;</a></h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[Channel configuration] --&gt; B[Coherent FDM plan]
+    B --&gt; C[External excitation hardware]
+    C --&gt; D[LabJack T7 stream]
+    D --&gt; E[Online lock-in demodulation]
+    D --&gt; F[Raw HDF5 datasets]
+    E --&gt; G[Demod HDF5 datasets]
+    F --&gt; H[Offline processing]
+    G --&gt; H
+    H --&gt; I[QC NPY files]
+    H --&gt; J[dff.h5]
+    H --&gt; K[raw_voltages.h5]
+    H --&gt; L[Compatibility files]
+    I --&gt; M[Downstream analysis]
+    J --&gt; M
+    K --&gt; M
+    L --&gt; M
+</code></pre>
+<h2 id="recommended-reading-order">Recommended reading order<a class="headerlink" href="#recommended-reading-order" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="workflow/">End-to-End Workflow</a> explains how a session moves from configuration to analysis-ready files.</li>
+<li><a href="recording/">Online Recording</a> documents hardware setup, GUI operation, threads, demodulation, and recording behavior.</li>
+<li><a href="concepts/">Concepts and Background</a> explains FDM, lock-in detection, reference correction, baselines, and module boundaries.</li>
+<li><a href="processing/">Processing Pipeline</a> documents offline QC, resampling, dF/F calculation, and compatibility exports.</li>
+<li><a href="data-formats/">Data Formats</a> is the authoritative reference for HDF5, NPY, JSON, and MAT outputs.</li>
+<li><a href="api-reference/">API Reference</a> describes every class and function in both projects.</li>
+<li><a href="operations/">Operations and Troubleshooting</a> provides checklists and common failure diagnoses.</li>
+</ol>
+<h2 id="important-assumptions">Important assumptions<a class="headerlink" href="#important-assumptions" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Python 3.11 is the documented runtime for both projects.</li>
+<li>The recording project is configured for frequency-division multiplexing (FDM).</li>
+<li><code>IE</code> is treated as the reference excitation during offline processing.</li>
+<li>The current processing entry point saves <code>dff_results[('F1', 'E1')]['zn']</code> as the single trace in <code>dff.h5</code>.</li>
+<li>A processing session directory must contain exactly one file matching <code>*_fiber_photometry.h5</code>.</li>
+<li>The recorder and processor use friendly channel names such as <code>TrialStart</code>, <code>Opto</code>, <code>F1</code>, and <code>E1</code>; metadata maps those names to physical LabJack channels.</li>
+</ul>
+<h2 id="building-this-documentation">Building this documentation<a class="headerlink" href="#building-this-documentation" title="Permanent link">&para;</a></h2>
+<p>Install MkDocs and preview locally:</p>
+<pre><code class="language-powershell">pip install mkdocs
+mkdocs serve
+</code></pre>
+<p>Build the static site:</p>
+<pre><code class="language-powershell">mkdocs build
+</code></pre>
+<p>The generated site is written to <code>site/</code>. GitHub Pages can publish it with <code>mkdocs gh-deploy</code> or a repository Pages workflow.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="workflow/" class="btn btn-neutral float-right" title="End-to-End Workflow">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="workflow/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="javascripts/site.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-06-15 17:44:02.088398+00:00
+-->

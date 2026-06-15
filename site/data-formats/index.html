@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Data Formats - Fiber Photometry Workflow</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../stylesheets/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Data Formats";
+        var mkdocs_page_input_path = "data-formats.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Fiber Photometry Workflow
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../workflow/">End-to-End Workflow</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Concepts and Background</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../recording/">Online Recording</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../processing/">Processing Pipeline</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Data Formats</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#recorder-hdf5">Recorder HDF5</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#meta">/meta</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#raw">/raw</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#demod">/demod</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#events">/events</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#vpp-lut-json">Vpp LUT JSON</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#subject-list-json">Subject list JSON</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-qc-npy-files">Processing QC NPY files</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dffh5">dff.h5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#raw_voltagesh5">raw_voltages.h5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#masksh5">masks.h5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#suite2pplane0opsnpy">suite2p/plane0/ops.npy</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../api-reference/">API Reference</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../operations/">Operations and Troubleshooting</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Fiber Photometry Workflow</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Data Formats</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="data-formats">Data Formats<a class="headerlink" href="#data-formats" title="Permanent link">&para;</a></h1>
+<h2 id="recorder-hdf5">Recorder HDF5<a class="headerlink" href="#recorder-hdf5" title="Permanent link">&para;</a></h2>
+<p>Filename:</p>
+<pre><code class="language-text">SUBJECT_YYYYMMDD_fiber_photometry.h5
+</code></pre>
+<p>All extendable numeric datasets use LZF compression. Raw numeric blocks are float32 except timestamps, while metadata strings use UTF-8 HDF5 string types.</p>
+<h3 id="meta"><code>/meta</code><a class="headerlink" href="#meta" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>attribute <code>META_VERSION</code></td>
+<td>string</td>
+<td>Currently <code>2</code>.</td>
+</tr>
+<tr>
+<td>attribute <code>START_TIME</code></td>
+<td>ISO UTC string</td>
+<td>File-open time with <code>Z</code> suffix.</td>
+</tr>
+<tr>
+<td>attribute <code>dropped_chunks_detected</code></td>
+<td>integer</td>
+<td>Number of sample-index discontinuities observed by the writer. Written at close.</td>
+</tr>
+<tr>
+<td><code>plan_json</code></td>
+<td>scalar JSON string</td>
+<td>Mode, sample rate, block length, excitation names, scan lists, and unused TDM fields.</td>
+</tr>
+<tr>
+<td><code>channels_json</code></td>
+<td>scalar JSON string</td>
+<td>Serialized channel configuration.</td>
+</tr>
+<tr>
+<td><code>channel_key_json</code></td>
+<td>scalar JSON string</td>
+<td>Friendly-name to physical measurement-channel mapping.</td>
+</tr>
+<tr>
+<td><code>excitation_names</code></td>
+<td>string vector</td>
+<td>Enabled excitation names in plan order.</td>
+</tr>
+<tr>
+<td><code>excitation_freqs_hz</code></td>
+<td>float64 vector</td>
+<td>Adjusted coherent excitation frequencies.</td>
+</tr>
+</tbody>
+</table>
+<p>Example channel-key entry:</p>
+<pre><code class="language-json">{
+  &quot;TrialStart&quot;: {
+    &quot;meas_name&quot;: &quot;MIO0&quot;,
+    &quot;type&quot;: &quot;DIO&quot;,
+    &quot;role&quot;: &quot;DIGITAL_IN&quot;
+  }
+}
+</code></pre>
+<h3 id="raw"><code>/raw</code><a class="headerlink" href="#raw" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Shape</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>time</code></td>
+<td><code>(samples,)</code></td>
+<td>float64</td>
+<td>Seconds from stream sample zero.</td>
+</tr>
+<tr>
+<td><code>analog</code></td>
+<td><code>(analog_channels, samples)</code></td>
+<td>float32</td>
+<td>Analog values in sorted physical-name order.</td>
+</tr>
+<tr>
+<td><code>digital</code></td>
+<td><code>(digital_channels, samples)</code></td>
+<td>float32</td>
+<td>Digital stream values in sorted physical-name order.</td>
+</tr>
+<tr>
+<td><code>names_analog</code></td>
+<td><code>(analog_channels,)</code></td>
+<td>strings</td>
+<td>Physical names corresponding to <code>analog</code> rows.</td>
+</tr>
+<tr>
+<td><code>names_digital</code></td>
+<td><code>(digital_channels,)</code></td>
+<td>strings</td>
+<td>Physical names corresponding to <code>digital</code> rows.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="demod"><code>/demod</code><a class="headerlink" href="#demod" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Shape</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>time</code></td>
+<td><code>(demod_samples,)</code></td>
+<td>float64</td>
+<td>Time of each decimated lock-in sample.</td>
+</tr>
+<tr>
+<td><code>amplitude</code></td>
+<td><code>(demod_samples, photodiodes, excitations)</code></td>
+<td>float32</td>
+<td>Absolute online lock-in amplitudes.</td>
+</tr>
+<tr>
+<td><code>names_pd</code></td>
+<td><code>(photodiodes,)</code></td>
+<td>strings</td>
+<td>Friendly photodiode names when available.</td>
+</tr>
+<tr>
+<td><code>names_exc</code></td>
+<td><code>(excitations,)</code></td>
+<td>strings</td>
+<td>Excitation names in plan order.</td>
+</tr>
+</tbody>
+</table>
+<p><code>time</code> and <code>amplitude</code> are only created when the plan has at least one photodiode and one excitation. Name datasets are created even when empty.</p>
+<h3 id="events"><code>/events</code><a class="headerlink" href="#events" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Shape</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>drop_log</code></td>
+<td><code>(events, 3)</code> int64</td>
+<td>Rows are <code>(observed_si0, expected_si0, gap_samples)</code>. A positive gap indicates missing samples; a negative gap indicates overlap or non-monotonic input.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vpp-lut-json">Vpp LUT JSON<a class="headerlink" href="#vpp-lut-json" title="Permanent link">&para;</a></h2>
+<p><code>vpp_lut.json</code> contains a mapping from excitation name to 64 measured Vpp values:</p>
+<pre><code class="language-json">{
+  &quot;luts&quot;: {
+    &quot;IE&quot;: [0.0, 0.05, 0.10],
+    &quot;E1&quot;: [0.0, 0.05, 0.10],
+    &quot;E2&quot;: [0.0, 0.05, 0.10]
+  }
+}
+</code></pre>
+<p>Actual arrays must contain exactly 64 values. Files written by the device-level calibration path may also include a Unix <code>timestamp</code>; files written by the GUI worker contain only <code>luts</code>.</p>
+<h2 id="subject-list-json">Subject list JSON<a class="headerlink" href="#subject-list-json" title="Permanent link">&para;</a></h2>
+<p><code>subjects.json</code> is a JSON list of subject names. <code>FakeSubject</code> is inserted in memory if absent and cannot be deleted through the GUI.</p>
+<h2 id="processing-qc-npy-files">Processing QC NPY files<a class="headerlink" href="#processing-qc-npy-files" title="Permanent link">&para;</a></h2>
+<p>Directory: <code>SESSION/qc_results/</code></p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Shape</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>time.npy</code></td>
+<td><code>(samples,)</code></td>
+<td>Downsampled demodulation timestamps in seconds.</td>
+</tr>
+<tr>
+<td><code>TrialStart.npy</code></td>
+<td><code>(samples,)</code></td>
+<td>Sampled digital trace, when present.</td>
+</tr>
+<tr>
+<td><code>Opto.npy</code></td>
+<td><code>(samples,)</code></td>
+<td>Sampled digital trace, when present.</td>
+</tr>
+<tr>
+<td><code>A_&lt;PD&gt;_&lt;EXC&gt;.npy</code></td>
+<td><code>(samples,)</code></td>
+<td>Downsampled online demodulated amplitude.</td>
+</tr>
+</tbody>
+</table>
+<p><code>load_export()</code> loads all NPY files into a dictionary and renames key <code>time</code> to <code>t</code>.</p>
+<h2 id="dffh5"><code>dff.h5</code><a class="headerlink" href="#dffh5" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Shape</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/dff</code></td>
+<td><code>(1, samples)</code></td>
+<td>Current pipeline: F1/E1 robust MAD z-score.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="raw_voltagesh5"><code>raw_voltages.h5</code><a class="headerlink" href="#raw_voltagesh5" title="Permanent link">&para;</a></h2>
+<p>All datasets are under <code>/raw</code> and share the dense voltage timebase length.</p>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vol_time</code></td>
+<td>float64</td>
+<td>Milliseconds.</td>
+</tr>
+<tr>
+<td><code>vol_start</code></td>
+<td>uint8</td>
+<td>Binarized <code>TrialStart</code>.</td>
+</tr>
+<tr>
+<td><code>vol_led</code></td>
+<td>uint8</td>
+<td>Binarized <code>Opto</code>.</td>
+</tr>
+<tr>
+<td><code>vol_img</code></td>
+<td>uint8</td>
+<td>One at each original processed-fluorescence sample.</td>
+</tr>
+<tr>
+<td><code>vol_stim_vis</code></td>
+<td>uint8</td>
+<td>Zeros.</td>
+</tr>
+<tr>
+<td><code>vol_hifi</code></td>
+<td>uint8</td>
+<td>Zeros.</td>
+</tr>
+<tr>
+<td><code>vol_stim_aud</code></td>
+<td>uint8</td>
+<td>Zeros.</td>
+</tr>
+<tr>
+<td><code>vol_flir</code></td>
+<td>uint8</td>
+<td>Zeros.</td>
+</tr>
+<tr>
+<td><code>vol_pmt</code></td>
+<td>uint8</td>
+<td>Zeros.</td>
+</tr>
+<tr>
+<td><code>vol_2p_stim</code></td>
+<td>uint8</td>
+<td>Zeros.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="masksh5"><code>masks.h5</code><a class="headerlink" href="#masksh5" title="Permanent link">&para;</a></h2>
+<p>The default compatibility writer stores:</p>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Current contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>labels</code></td>
+<td><code>[-1]</code></td>
+</tr>
+<tr>
+<td><code>masks_func</code></td>
+<td>Dummy one-dimensional array <code>[5, 1, 2, 3, 2]</code></td>
+</tr>
+<tr>
+<td><code>mean_func</code></td>
+<td>Same dummy array</td>
+</tr>
+<tr>
+<td><code>max_func</code></td>
+<td>Same dummy array</td>
+</tr>
+</tbody>
+</table>
+<p>The optional ROI-labeling module can instead add <code>mean_anat</code> and <code>masks_anat</code> with real image-derived content.</p>
+<h2 id="suite2pplane0opsnpy"><code>suite2p/plane0/ops.npy</code><a class="headerlink" href="#suite2pplane0opsnpy" title="Permanent link">&para;</a></h2>
+<p>Saved Python dictionary:</p>
+<pre><code class="language-python">{
+    &quot;save_path0&quot;: &quot;&lt;session path&gt;&quot;,
+    &quot;nchannels&quot;: 1
+}
+</code></pre>
+<p>Load with <code>numpy.load(path, allow_pickle=True).item()</code>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../processing/" class="btn btn-neutral float-left" title="Processing Pipeline"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../api-reference/" class="btn btn-neutral float-right" title="API Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../processing/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../api-reference/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../javascripts/site.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

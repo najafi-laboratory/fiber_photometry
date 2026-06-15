@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Online Recording - Fiber Photometry Workflow</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../stylesheets/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Online Recording";
+        var mkdocs_page_input_path = "recording.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Fiber Photometry Workflow
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../workflow/">End-to-End Workflow</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Concepts and Background</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Online Recording</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#responsibilities">Responsibilities</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#project-layout">Project layout</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#plan-model">Plan model</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hardware-communication">Hardware communication</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#ad9833-frequency-generation">AD9833 frequency generation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mcp4728-bias-control">MCP4728 bias control</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#shift-register-vpp-control">Shift-register Vpp control</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#labjack-stream">LabJack stream</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#vpp-lut-lifecycle">Vpp LUT lifecycle</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#online-demodulation">Online demodulation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#threading-and-queues">Threading and queues</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mock-mode">Mock mode</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gui-behavior">GUI behavior</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#config-tab">Config tab</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#calibration-tab">Calibration tab</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#session-tab">Session tab</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#session-shutdown">Session shutdown</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../processing/">Processing Pipeline</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data-formats/">Data Formats</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../api-reference/">API Reference</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../operations/">Operations and Troubleshooting</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Fiber Photometry Workflow</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Online Recording</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="online-recording-project">Online Recording Project<a class="headerlink" href="#online-recording-project" title="Permanent link">&para;</a></h1>
+<h2 id="responsibilities">Responsibilities<a class="headerlink" href="#responsibilities" title="Permanent link">&para;</a></h2>
+<p>The recording application combines five responsibilities:</p>
+<ul>
+<li>represent user channel settings and build an FDM plan,</li>
+<li>program external excitation electronics,</li>
+<li>stream LabJack or mock samples,</li>
+<li>calculate live lock-in amplitudes,</li>
+<li>plot and save raw plus demodulated data.</li>
+</ul>
+<p>The important design principle is separation between <strong>configuration</strong>, <strong>hardware I/O</strong>, <strong>continuous numerical work</strong>, and <strong>user-interface coordination</strong>. Hardware and demodulation cannot be allowed to freeze the Qt event loop, and file writing should not delay acquisition. That is why the project uses a plan object, device abstraction, Qt workers, and a separate writer thread.</p>
+<h2 id="project-layout">Project layout<a class="headerlink" href="#project-layout" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run_fp.py</code></td>
+<td>Qt application entry point.</td>
+</tr>
+<tr>
+<td><code>core.py</code></td>
+<td>Configuration containers and coherent plan generation.</td>
+</tr>
+<tr>
+<td><code>devices.py</code></td>
+<td>Hardware protocols, real T7 streaming, synthetic data, and CSV playback.</td>
+</tr>
+<tr>
+<td><code>workers.py</code></td>
+<td>Acquisition, online processing, and LUT workers that run outside the GUI thread.</td>
+</tr>
+<tr>
+<td><code>gui.py</code></td>
+<td>GUI construction, plotting, session control, and threaded HDF5 writing.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="plan-model">Plan model<a class="headerlink" href="#plan-model" title="Permanent link">&para;</a></h2>
+<p><code>ChannelSpec</code> is the editable source configuration. Excitation channels may carry an <code>AD9833Cfg</code>, <code>MCP4728Cfg</code>, and <code>ShiftVppCfg</code>. <code>build_plan()</code> converts enabled channel specs into a <code>DevicePlan</code> containing:</p>
+<ul>
+<li><code>mode</code>: currently <code>FDM</code>,</li>
+<li><code>Fs</code>: effective samples per channel per second,</li>
+<li><code>L</code>: samples per acquisition block,</li>
+<li><code>excitations</code>: enabled <code>ExcitationPlan</code> objects,</li>
+<li><code>excitations_disabled</code>: disabled excitations forced to zero Vbias and Vpp,</li>
+<li><code>scan_ain</code> and <code>scan_dio</code>: ordered physical input names,</li>
+<li><code>k_array</code>: coherent Fourier-bin indices,</li>
+<li><code>adjusted_freqs</code>: actual frequencies represented by those bins.</li>
+</ul>
+<p>The generated waveform is <code>vbias + 0.5 * vpp * sin(2*pi*k*n/L)</code>. It is retained in the plan for mock synthesis or the dormant onboard-DAC path; the active real-hardware path programs external ICs.</p>
+<h2 id="hardware-communication">Hardware communication<a class="headerlink" href="#hardware-communication" title="Permanent link">&para;</a></h2>
+<h3 id="ad9833-frequency-generation">AD9833 frequency generation<a class="headerlink" href="#ad9833-frequency-generation" title="Permanent link">&para;</a></h3>
+<p>The code converts frequency to a 28-bit tuning word using <code>round(f * 2^28 / MCLK)</code>, splits it into two 14-bit writes, and transmits reset, frequency, and run control words over LabJack SPI. Each excitation has an independent chip-select line.</p>
+<h3 id="mcp4728-bias-control">MCP4728 bias control<a class="headerlink" href="#mcp4728-bias-control" title="Permanent link">&para;</a></h3>
+<p>The code clamps requested voltage to 0 through 5.032 V, converts it to a 12-bit DAC code, and sends a three-byte channel-specific command over LabJack I2C. Writes to one I2C address are locked and separated by at least 60 ms.</p>
+<h3 id="shift-register-vpp-control">Shift-register Vpp control<a class="headerlink" href="#shift-register-vpp-control" title="Permanent link">&para;</a></h3>
+<p>The code shifts one six-bit value per enabled excitation in parallel. <code>IE</code>, <code>E1</code>, and <code>E2</code> use separate serial data lines and shared shift/latch clocks. The default bit order is least-significant bit first.</p>
+<h3 id="labjack-stream">LabJack stream<a class="headerlink" href="#labjack-stream" title="Permanent link">&para;</a></h3>
+<p>The T7 opens over USB and applies these global settings:</p>
+<ul>
+<li>single-ended AIN negative channel <code>199</code>,</li>
+<li>10 V AIN range,</li>
+<li>stream resolution index 0,</li>
+<li>zero stream settling delay,</li>
+<li>internal stream clock.</li>
+</ul>
+<p><code>eStreamStart()</code> requests <code>L</code> scans per read. <code>read_chunk()</code> reshapes the flat returned values into <code>channels x L</code> float32 blocks and assigns a monotonically increasing starting sample index.</p>
+<h2 id="vpp-lut-lifecycle">Vpp LUT lifecycle<a class="headerlink" href="#vpp-lut-lifecycle" title="Permanent link">&para;</a></h2>
+<p>The LUT maps every code from 0 to 63 to measured peak-to-peak voltage for each excitation.</p>
+<ol>
+<li>Set the same candidate code on every excitation shift register.</li>
+<li>Wait 15 ms by default.</li>
+<li>capture a short monitor waveform for plotting,</li>
+<li>measure Vbias as the median and Vpp as the 0.5% to 99.5% quantile range,</li>
+<li>store the measured Vpp in the channel LUT,</li>
+<li>save all 64 values to <code>vpp_lut.json</code>.</li>
+</ol>
+<p>Loading validates that every enabled Vpp-controlled excitation exists and has exactly 64 values. Extra channels in the file are discarded. Missing or malformed channels force a rebuild.</p>
+<h2 id="online-demodulation">Online demodulation<a class="headerlink" href="#online-demodulation" title="Permanent link">&para;</a></h2>
+<p>Online demodulation is a digital lock-in amplifier. A lock-in amplifier extracts the part of a noisy signal that oscillates at a known reference frequency. Signals at other frequencies multiply into alternating positive and negative values that mostly cancel after low-pass filtering. See <a href="../concepts/">Concepts and Background</a> for an interactive illustration.</p>
+<p><code>ProcessWorker</code> identifies photodiode rows as scanned analog inputs that are not excitation monitors. For each sample and each excitation it:</p>
+<ol>
+<li>selects the coherent sine/cosine reference value using the absolute sample index modulo <code>L</code>,</li>
+<li>optionally subtracts the mean across photodiodes,</li>
+<li>optionally removes a slow DC estimate,</li>
+<li>multiplies the signal by cosine and sine references,</li>
+<li>low-pass filters I and Q with the first exponential stage,</li>
+<li>optionally low-pass filters them again,</li>
+<li>calculates amplitude as <code>2 * sqrt(I^2 + Q^2)</code>,</li>
+<li>emits one amplitude sample every <code>round(Fs / decim_hz)</code> raw samples.</li>
+</ol>
+<p>The worker calculates a slow amplitude baseline internally, but the baseline is not subtracted and is not saved. The saved <code>/demod/amplitude</code> dataset contains absolute online lock-in amplitudes.</p>
+<h2 id="threading-and-queues">Threading and queues<a class="headerlink" href="#threading-and-queues" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>AcquireWorker</code> lives in the acquisition <code>QThread</code> and blocks in <code>read_chunk()</code>.</li>
+<li><code>ProcessWorker</code> lives in a second <code>QThread</code>; Qt signals transfer each block to it.</li>
+<li><code>H5Writer</code> is a Python daemon thread using a bounded queue of 16 blocks.</li>
+<li>Plot updates are throttled to 40 Hz, while every processed block is offered to the writer.</li>
+</ul>
+<p>If the writer queue remains full for 0.5 s, the GUI drops that block and increments an in-memory queue-drop counter. This counter is printed but not written to HDF5. Separately, <code>H5Writer</code> detects discontinuities among blocks that do reach it and records them in <code>/events/drop_log</code>.</p>
+<h2 id="mock-mode">Mock mode<a class="headerlink" href="#mock-mode" title="Permanent link">&para;</a></h2>
+<p><code>MockT7</code> supports two sources:</p>
+<ul>
+<li><strong>Synthetic:</strong> excitation monitor rows reproduce the planned waveforms with noise; photodiode rows contain mixtures of all excitation frequencies; digital rows contain occasional synthetic pulses.</li>
+<li><strong>CSV playback:</strong> the first column must be <code>timestamp</code>; remaining columns are read as measurement rows. Optional comment lines beginning with <code># PLAN</code>, <code># CHANNELS</code>, and <code># CHANNEL_KEY</code> carry JSON metadata.</li>
+</ul>
+<p>Playback timing follows the active plan's <code>L/Fs</code>, loops at end of file, and truncates rows when CSV and plan channel counts differ. The CSV timestamps are loaded but are not used by playback timing.</p>
+<h2 id="gui-behavior">GUI behavior<a class="headerlink" href="#gui-behavior" title="Permanent link">&para;</a></h2>
+<h3 id="config-tab">Config tab<a class="headerlink" href="#config-tab" title="Permanent link">&para;</a></h3>
+<p>Edits channel values, selects mock versus real T7, loads mock CSV data, builds the plan, builds/aborts/verifies LUTs, and displays short excitation monitor traces.</p>
+<h3 id="calibration-tab">Calibration tab<a class="headerlink" href="#calibration-tab" title="Permanent link">&para;</a></h3>
+<p>Runs acquisition, online demodulation, and plotting without an HDF5 writer.</p>
+<h3 id="session-tab">Session tab<a class="headerlink" href="#session-tab" title="Permanent link">&para;</a></h3>
+<p>Runs the same pipeline with HDF5 logging. Plots include individual excitation monitors, all digital inputs, combined raw photodiodes, and one demodulation panel per photodiode.</p>
+<p>Plot data is limited to the selected trailing window. Raw traces above 2,000 points are reduced to a 2,000-point min/max envelope to preserve spikes while keeping the UI responsive.</p>
+<h2 id="session-shutdown">Session shutdown<a class="headerlink" href="#session-shutdown" title="Permanent link">&para;</a></h2>
+<p><code>on_stop()</code> requests device and processor stop, quits and waits up to two seconds for each Qt thread, then stops and joins the HDF5 writer for up to two seconds. Closing the main window invokes the same sequence.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../concepts/" class="btn btn-neutral float-left" title="Concepts and Background"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../processing/" class="btn btn-neutral float-right" title="Processing Pipeline">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../concepts/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../processing/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../javascripts/site.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

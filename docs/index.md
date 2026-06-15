@@ -7,6 +7,13 @@ This documentation covers the two projects in this workspace:
 | `fiber_photometry_recording_202606` | Configure the LabJack T7 and external excitation electronics, acquire raw signals, demodulate photodiode signals online, display live plots, and save a session HDF5 file. | `python run_fp.py` |
 | `fiber_photometry_processing_pipeline_202605` | Validate and trim a recorded session, downsample signals, calculate reference-corrected dF/F, and create files expected by downstream analysis code. | `python run_process.py` |
 
+<div class="doc-card-grid">
+  <a class="doc-card" href="workflow/"><strong>Run a complete session</strong><span>Follow the experiment from channel setup through analysis-ready files.</span></a>
+  <a class="doc-card" href="recording/"><strong>Understand recording</strong><span>LabJack streaming, hardware programming, threads, plots, and HDF5 logging.</span></a>
+  <a class="doc-card" href="processing/"><strong>Process the data</strong><span>Pulse QC, resampling, reference regression, dF/F, and compatibility exports.</span></a>
+  <a class="doc-card" href="concepts/"><strong>Learn the signal concepts</strong><span>Try an interactive lock-in demo and learn why each module exists.</span></a>
+</div>
+
 ## System at a glance
 
 ```mermaid
@@ -33,10 +40,11 @@ flowchart LR
 
 1. [End-to-End Workflow](workflow.md) explains how a session moves from configuration to analysis-ready files.
 2. [Online Recording](recording.md) documents hardware setup, GUI operation, threads, demodulation, and recording behavior.
-3. [Processing Pipeline](processing.md) documents offline QC, resampling, dF/F calculation, and compatibility exports.
-4. [Data Formats](data-formats.md) is the authoritative reference for HDF5, NPY, JSON, and MAT outputs.
-5. [API Reference](api-reference.md) describes every class and function in both projects.
-6. [Operations and Troubleshooting](operations.md) provides checklists and common failure diagnoses.
+3. [Concepts and Background](concepts.md) explains FDM, lock-in detection, reference correction, baselines, and module boundaries.
+4. [Processing Pipeline](processing.md) documents offline QC, resampling, dF/F calculation, and compatibility exports.
+5. [Data Formats](data-formats.md) is the authoritative reference for HDF5, NPY, JSON, and MAT outputs.
+6. [API Reference](api-reference.md) describes every class and function in both projects.
+7. [Operations and Troubleshooting](operations.md) provides checklists and common failure diagnoses.
 
 ## Important assumptions
 
@@ -63,4 +71,3 @@ mkdocs build
 ```
 
 The generated site is written to `site/`. GitHub Pages can publish it with `mkdocs gh-deploy` or a repository Pages workflow.
-

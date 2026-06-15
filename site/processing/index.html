@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Processing Pipeline - Fiber Photometry Workflow</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../stylesheets/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Processing Pipeline";
+        var mkdocs_page_input_path = "processing.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Fiber Photometry Workflow
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../workflow/">End-to-End Workflow</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Concepts and Background</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../recording/">Online Recording</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Processing Pipeline</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#responsibilities">Responsibilities</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#project-layout">Project layout</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#input-contract">Input contract</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#fixed-processing-parameters">Fixed processing parameters</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pulse-quality-control">Pulse quality control</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#trimming-and-resampling">Trimming and resampling</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dff-calculation">dF/F calculation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-reference-regression">1. Reference regression</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-rolling-baseline">2. Rolling baseline</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-fractional-fluorescence">3. Fractional fluorescence</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-robust-normalization">4. Robust normalization</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#saved-trace-selection">Saved trace selection</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#compatibility-exports">Compatibility exports</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dffh5">dff.h5</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#raw_voltagesh5">raw_voltages.h5</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#opsnpy-and-masksh5">ops.npy and masks.h5</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#behavioral-mat-file">Behavioral MAT file</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#optional-roi-labeling-module">Optional ROI-labeling module</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#optional-plots">Optional plots</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data-formats/">Data Formats</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../api-reference/">API Reference</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../operations/">Operations and Troubleshooting</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Fiber Photometry Workflow</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Processing Pipeline</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="processing-pipeline">Processing Pipeline<a class="headerlink" href="#processing-pipeline" title="Permanent link">&para;</a></h1>
+<h2 id="responsibilities">Responsibilities<a class="headerlink" href="#responsibilities" title="Permanent link">&para;</a></h2>
+<p>The processing project converts one recorder HDF5 file into QC arrays, normalized fluorescence, digital-event voltage files, and a small set of compatibility artifacts expected by an existing analysis workflow.</p>
+<p>The processing stage deliberately leaves the original recording untouched. The HDF5 file is the source record; generated NPY and HDF5 outputs are reproducible derivatives. This distinction matters when parameters change or a questionable result needs to be traced back through trimming, reference removal, and baseline estimation.</p>
+<h2 id="project-layout">Project layout<a class="headerlink" href="#project-layout" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run_process.py</code></td>
+<td>Session orchestration, pulse QC, plots, and fixed processing parameters.</td>
+</tr>
+<tr>
+<td><code>modules/DataIO.py</code></td>
+<td>Input validation, HDF5 reading, resampling, and NPY export.</td>
+</tr>
+<tr>
+<td><code>modules/DffTraces.py</code></td>
+<td>Reference regression, baseline estimation, dF/F, and robust z-scoring.</td>
+</tr>
+<tr>
+<td><code>modules/SaveStructureMatch.py</code></td>
+<td>Downstream-compatible file creation and behavioral MAT rename.</td>
+</tr>
+<tr>
+<td><code>modules/LabelExcInh.py</code></td>
+<td>Optional imaging ROI/anatomical labeling utilities; not called by <code>run_process.py</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="input-contract">Input contract<a class="headerlink" href="#input-contract" title="Permanent link">&para;</a></h2>
+<p><code>resolve_h5_path()</code> requires a session directory containing exactly one <code>*_fiber_photometry.h5</code>. The file must provide:</p>
+<ul>
+<li><code>/meta/channel_key_json</code>,</li>
+<li><code>/raw/time</code>, <code>/raw/digital</code>, and <code>/raw/names_digital</code>,</li>
+<li><code>/demod/time</code>, <code>/demod/amplitude</code>, <code>/demod/names_pd</code>, and <code>/demod/names_exc</code>.</li>
+</ul>
+<p>The demodulated amplitude shape must be <code>(time, photodiode, excitation)</code>. Empty or mismatched datasets raise an error before processing.</p>
+<h2 id="fixed-processing-parameters">Fixed processing parameters<a class="headerlink" href="#fixed-processing-parameters" title="Permanent link">&para;</a></h2>
+<p><code>run_postprocess()</code> currently defines its parameters inside the function:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raw start trim</td>
+<td>0.25 s</td>
+<td>Removes the beginning power transient.</td>
+</tr>
+<tr>
+<td>Raw stop trim</td>
+<td>0.25 s</td>
+<td>Removes the ending transient.</td>
+</tr>
+<tr>
+<td>Downsample target</td>
+<td>500 Hz</td>
+<td>Approximate demod/QC output rate.</td>
+</tr>
+<tr>
+<td>Digital names</td>
+<td><code>TrialStart</code>, <code>Opto</code></td>
+<td>Channels checked and exported.</td>
+</tr>
+<tr>
+<td>Baseline window</td>
+<td>60 s</td>
+<td>Rolling percentile-filter duration.</td>
+</tr>
+<tr>
+<td>Baseline percentile</td>
+<td>10</td>
+<td>Low fluorescence baseline percentile.</td>
+</tr>
+<tr>
+<td>Huber epsilon</td>
+<td>1.5</td>
+<td>Robust reference-regression sensitivity.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pulse-quality-control">Pulse quality control<a class="headerlink" href="#pulse-quality-control" title="Permanent link">&para;</a></h2>
+<p><code>pulse_anomalies()</code> thresholds a digital trace at 0.5, detects rising and falling edges, pairs them in time order, and reports:</p>
+<ul>
+<li><code>fall_without_rise</code>,</li>
+<li><code>rise_without_fall</code>,</li>
+<li><code>bad_width</code> when pulse width differs from 68 ms by more than 10 ms.</li>
+</ul>
+<p>Anomalies are printed to the terminal. They do not stop processing and are not saved to a report file.</p>
+<h2 id="trimming-and-resampling">Trimming and resampling<a class="headerlink" href="#trimming-and-resampling" title="Permanent link">&para;</a></h2>
+<p>Raw indices are chosen using <code>numpy.searchsorted()</code> on <code>/raw/time</code>. Demodulated rows are retained when their timestamps lie between the first and last retained raw timestamps.</p>
+<p>The demodulated sampling rate is estimated from the median timestamp difference. Downsampling is simple stride selection:</p>
+<pre><code class="language-text">step = round(original_rate / target_rate)
+indices = 0, step, 2*step, ...
+</code></pre>
+<p>This is decimation without an additional offline anti-alias filter. The online lock-in output has already passed low-pass stages, but users should still verify that the resulting bandwidth is appropriate.</p>
+<p>Each digital output is sampled from the nearest raw timestamp at or after the demodulated timestamp, with indices clipped to the available range.</p>
+<h2 id="dff-calculation">dF/F calculation<a class="headerlink" href="#dff-calculation" title="Permanent link">&para;</a></h2>
+<p>The numerical stages answer different questions. Reference regression asks, "how much of this signal follows the artifact reference?" Baseline estimation asks, "what is the local resting fluorescence?" dF/F expresses change relative to that baseline, and robust z-scoring expresses how unusual each value is relative to the session's typical variation.</p>
+<p>For every photodiode and every non-<code>IE</code> excitation, <code>compute_dff_traces()</code> performs:</p>
+<h3 id="1-reference-regression">1. Reference regression<a class="headerlink" href="#1-reference-regression" title="Permanent link">&para;</a></h3>
+<p>The signal and IE reference are median-centered. A no-intercept <code>HuberRegressor</code> fits the centered reference to the centered signal. The fitted reference contribution is removed:</p>
+<pre><code class="language-text">residual = signal - slope * (reference - median(reference))
+</code></pre>
+<p>The residual median is shifted back to the original signal median by default.</p>
+<h3 id="2-rolling-baseline">2. Rolling baseline<a class="headerlink" href="#2-rolling-baseline" title="Permanent link">&para;</a></h3>
+<p>A rolling percentile filter estimates the 10th percentile in a nominal 60-second odd-sized window. NaNs are replaced with the signal median before filtering. Reflective edge handling is used.</p>
+<h3 id="3-fractional-fluorescence">3. Fractional fluorescence<a class="headerlink" href="#3-fractional-fluorescence" title="Permanent link">&para;</a></h3>
+<pre><code class="language-text">dF/F = (residual - baseline) / max(baseline, 1e-6)
+</code></pre>
+<h3 id="4-robust-normalization">4. Robust normalization<a class="headerlink" href="#4-robust-normalization" title="Permanent link">&para;</a></h3>
+<pre><code class="language-text">z = (dF/F - median(dF/F)) / (1.4826 * median(abs(dF/F - median(dF/F))))
+</code></pre>
+<p>The denominator is limited to at least <code>1e-9</code>.</p>
+<p>Each result dictionary retains <code>raw</code>, <code>ref</code>, <code>resid</code>, <code>slope</code>, <code>base</code>, <code>dff</code>, and <code>zn</code>, so callers can inspect every stage.</p>
+<h2 id="saved-trace-selection">Saved trace selection<a class="headerlink" href="#saved-trace-selection" title="Permanent link">&para;</a></h2>
+<p>Although dF/F is calculated for every non-reference excitation and photodiode, the current orchestration code writes only:</p>
+<pre><code class="language-python">dff_results['F1', 'E1']['zn']
+</code></pre>
+<p>to <code>dff.h5</code>. Sessions without both <code>F1</code> and <code>E1</code> will fail at this lookup. Other calculated traces remain available in the returned <code>dff_results</code> object and in <code>qc_results/A_&lt;PD&gt;_&lt;EXC&gt;.npy</code>, but are not persisted as processed dF/F files.</p>
+<h2 id="compatibility-exports">Compatibility exports<a class="headerlink" href="#compatibility-exports" title="Permanent link">&para;</a></h2>
+<h3 id="dffh5"><code>dff.h5</code><a class="headerlink" href="#dffh5" title="Permanent link">&para;</a></h3>
+<p>Contains one dataset, <code>/dff</code>, shaped <code>(1, samples)</code>. Despite the dataset name, the stored values are the robust z-score <code>zn</code> for F1/E1, not the unnormalized fractional dF/F array.</p>
+<h3 id="raw_voltagesh5"><code>raw_voltages.h5</code><a class="headerlink" href="#raw_voltagesh5" title="Permanent link">&para;</a></h3>
+<p>The pipeline creates a timebase five times denser than the processed fluorescence timebase. It repeats each sampled digital value five times, marks every original fluorescence timestamp in <code>vol_img</code>, converts time to milliseconds, and saves binary channels under <code>/raw</code>.</p>
+<p>Mapping:</p>
+<table>
+<thead>
+<tr>
+<th>Output</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vol_start</code></td>
+<td><code>TrialStart</code></td>
+</tr>
+<tr>
+<td><code>vol_led</code></td>
+<td><code>Opto</code></td>
+</tr>
+<tr>
+<td><code>vol_img</code></td>
+<td>One-sample marker at each fluorescence time</td>
+</tr>
+<tr>
+<td>Other voltage channels</td>
+<td>Zeros for compatibility</td>
+</tr>
+</tbody>
+</table>
+<h3 id="opsnpy-and-masksh5"><code>ops.npy</code> and <code>masks.h5</code><a class="headerlink" href="#opsnpy-and-masksh5" title="Permanent link">&para;</a></h3>
+<p>These are placeholders, not image-derived results. <code>ops.npy</code> contains only <code>save_path0</code> and <code>nchannels=1</code>. <code>masks.h5</code> contains small dummy arrays and a single label of <code>-1</code>.</p>
+<h3 id="behavioral-mat-file">Behavioral MAT file<a class="headerlink" href="#behavioral-mat-file" title="Permanent link">&para;</a></h3>
+<p>If exactly one <code>.mat</code> file other than <code>bpod_session_data.mat</code> exists, it is renamed. If the target already exists, no action is taken. Otherwise, ambiguous or missing MAT files produce a terminal message.</p>
+<h2 id="optional-roi-labeling-module">Optional ROI-labeling module<a class="headerlink" href="#optional-roi-labeling-module" title="Permanent link">&para;</a></h2>
+<p><code>LabelExcInh.py</code> belongs to a broader imaging pipeline and is not part of normal fiber-photometry processing. It can load Suite2p masks and traces, run Cellpose on an anatomical channel, correct anatomical bleedthrough, calculate functional/anatomical ROI overlap, assign labels, and write a richer <code>masks.h5</code>.</p>
+<p>This module expects files such as <code>qc_results/masks.npy</code>, Suite2p <code>F.npy</code>, <code>F_chan2.npy</code>, and image fields in <code>ops</code>. Those inputs are not produced by the present fiber-photometry entry point.</p>
+<h2 id="optional-plots">Optional plots<a class="headerlink" href="#optional-plots" title="Permanent link">&para;</a></h2>
+<p>Call <code>run_postprocess(session, plot=True)</code> to show:</p>
+<ul>
+<li>demodulated amplitudes by photodiode and excitation,</li>
+<li>downsampled digital channels,</li>
+<li>raw/reference traces,</li>
+<li>reference-removed residual,</li>
+<li>rolling baseline,</li>
+<li>dF/F and robust z-score.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../recording/" class="btn btn-neutral float-left" title="Online Recording"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../data-formats/" class="btn btn-neutral float-right" title="Data Formats">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../recording/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../data-formats/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../javascripts/site.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

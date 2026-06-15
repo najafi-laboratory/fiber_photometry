@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Operations and Troubleshooting - Fiber Photometry Workflow</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../stylesheets/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Operations and Troubleshooting";
+        var mkdocs_page_input_path = "operations.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Fiber Photometry Workflow
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../workflow/">End-to-End Workflow</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Concepts and Background</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../recording/">Online Recording</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../processing/">Processing Pipeline</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data-formats/">Data Formats</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../api-reference/">API Reference</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Operations and Troubleshooting</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#pre-recording-checklist">Pre-recording checklist</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#post-recording-checklist">Post-recording checklist</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-checklist">Processing checklist</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-recording-problems">Common recording problems</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#the-app-uses-mock-mode-unexpectedly">The app uses mock mode unexpectedly</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#build-plan-reports-zero-channels">Build Plan reports zero channels</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#frequency-differs-from-the-requested-value">Frequency differs from the requested value</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#lut-build-never-enables-session-start">LUT build never enables session start</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#monitor-measurements-fail-during-streaming">Monitor measurements fail during streaming</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hdf5-has-missing-blocks">HDF5 has missing blocks</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#reusing-the-same-subject-on-the-same-day">Reusing the same subject on the same day</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#common-processing-problems">Common processing problems</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#expected-exactly-one-hdf5-file">Expected exactly one HDF5 file</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#missing-demod-datasets">Missing /demod datasets</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#no-demodulated-samples-remain-after-trimming">No demodulated samples remain after trimming</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#keyerror-f1-e1">KeyError: ('F1', 'E1')</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#baseline-errors-on-very-short-recordings">Baseline errors on very short recordings</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pulse-anomaly-messages">Pulse anomaly messages</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#behavioral-mat-was-not-renamed">Behavioral MAT was not renamed</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#current-implementation-cautions">Current implementation cautions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#minimal-validation-commands">Minimal validation commands</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Fiber Photometry Workflow</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Operations and Troubleshooting</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="operations-and-troubleshooting">Operations and Troubleshooting<a class="headerlink" href="#operations-and-troubleshooting" title="Permanent link">&para;</a></h1>
+<h2 id="pre-recording-checklist">Pre-recording checklist<a class="headerlink" href="#pre-recording-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Confirm LabJack LJM is installed and the T7 is visible over USB.</li>
+<li>Confirm AIN, DIO, SPI, I2C, and shift-register wiring matches the Config table and default bindings.</li>
+<li>Select the intended real/mock mode before building the plan.</li>
+<li>Confirm enabled excitation frequencies are positive.</li>
+<li>Confirm no two semantic channels unintentionally point to the same physical input.</li>
+<li>Build the plan and review effective <code>Fs</code>, <code>L</code>, and adjusted frequencies.</li>
+<li>Build or load the LUT and verify frequency, Vpp, and Vbias.</li>
+<li>Run Calibration mode and inspect all raw and demodulated panels.</li>
+<li>Set the base directory and subject before starting the session.</li>
+</ul>
+<h2 id="post-recording-checklist">Post-recording checklist<a class="headerlink" href="#post-recording-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Stop the session through the GUI.</li>
+<li>Confirm the HDF5 file exists at the displayed path.</li>
+<li>Confirm <code>/raw/time</code> and <code>/demod/time</code> are non-empty and monotonic.</li>
+<li>Confirm amplitude shape matches photodiode and excitation name counts.</li>
+<li>Check <code>/meta</code> <code>dropped_chunks_detected</code>.</li>
+<li>Inspect <code>/events/drop_log</code> for gaps.</li>
+<li>Confirm <code>TrialStart</code> and <code>Opto</code> are present in <code>channel_key_json</code> and <code>/raw/names_digital</code> when required.</li>
+<li>Preserve the original recording HDF5 as the source of truth.</li>
+</ul>
+<h2 id="processing-checklist">Processing checklist<a class="headerlink" href="#processing-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Place exactly one <code>*_fiber_photometry.h5</code> in each session directory.</li>
+<li>Place the behavioral <code>.mat</code> file in the same directory when downstream analysis requires it.</li>
+<li>Review <code>list_sess_path</code> before running <code>run_process.py</code>.</li>
+<li>Read terminal pulse-anomaly messages.</li>
+<li>Confirm <code>qc_results/time.npy</code> and all expected <code>A_&lt;PD&gt;_&lt;EXC&gt;.npy</code> files exist.</li>
+<li>Plot or inspect F1/IE and F1/E1 before trusting normalized output.</li>
+<li>Confirm <code>dff.h5</code>, <code>raw_voltages.h5</code>, <code>masks.h5</code>, and <code>suite2p/plane0/ops.npy</code> were created.</li>
+<li>Remember that <code>dff.h5</code> currently contains F1/E1 robust z-score only.</li>
+</ul>
+<h2 id="common-recording-problems">Common recording problems<a class="headerlink" href="#common-recording-problems" title="Permanent link">&para;</a></h2>
+<h3 id="the-app-uses-mock-mode-unexpectedly">The app uses mock mode unexpectedly<a class="headerlink" href="#the-app-uses-mock-mode-unexpectedly" title="Permanent link">&para;</a></h3>
+<p><code>run_fp.py</code> requests real hardware, but <code>MainWindow</code> falls back to <code>MockT7</code> when importing <code>labjack.ljm</code> fails. Install both the Python package and the system LJM driver, then restart the application.</p>
+<h3 id="build-plan-reports-zero-channels">Build Plan reports zero channels<a class="headerlink" href="#build-plan-reports-zero-channels" title="Permanent link">&para;</a></h3>
+<p>At least one enabled AIN or DIO must be selected. Check the Enable boxes and physical input fields.</p>
+<h3 id="frequency-differs-from-the-requested-value">Frequency differs from the requested value<a class="headerlink" href="#frequency-differs-from-the-requested-value" title="Permanent link">&para;</a></h3>
+<p>This is expected within a small error. Frequencies are adjusted to coherent bins <code>k * Fs / L</code>. Review the plan status and verify that the error is acceptable.</p>
+<h3 id="lut-build-never-enables-session-start">LUT build never enables session start<a class="headerlink" href="#lut-build-never-enables-session-start" title="Permanent link">&para;</a></h3>
+<p>Session start remains disabled while a LUT thread is running or when <code>_plan_ready</code> is false. Wait for completion, inspect the LUT error message, or abort and rebuild the plan. An aborted or failed build removes or invalidates <code>vpp_lut.json</code> and clears the plan.</p>
+<h3 id="monitor-measurements-fail-during-streaming">Monitor measurements fail during streaming<a class="headerlink" href="#monitor-measurements-fail-during-streaming" title="Permanent link">&para;</a></h3>
+<p>LUT verification and monitor measurements start their own temporary stream. Stop Calibration or Session mode before invoking them.</p>
+<h3 id="hdf5-has-missing-blocks">HDF5 has missing blocks<a class="headerlink" href="#hdf5-has-missing-blocks" title="Permanent link">&para;</a></h3>
+<p>Inspect both queue-drop terminal messages and <code>/events/drop_log</code>. Potential causes include slow storage, an undersized writer queue, long filesystem stalls, or acquisition/processing errors. Queue-dropped blocks may appear as a later sample-index gap when the next block is written.</p>
+<h3 id="reusing-the-same-subject-on-the-same-day">Reusing the same subject on the same day<a class="headerlink" href="#reusing-the-same-subject-on-the-same-day" title="Permanent link">&para;</a></h3>
+<p>The filename contains subject and date but no run number or time. Opening a new session at the same path uses HDF5 mode <code>w</code> and overwrites the previous file. Move/rename the earlier file or use a different destination before another same-day session.</p>
+<h2 id="common-processing-problems">Common processing problems<a class="headerlink" href="#common-processing-problems" title="Permanent link">&para;</a></h2>
+<h3 id="expected-exactly-one-hdf5-file">Expected exactly one HDF5 file<a class="headerlink" href="#expected-exactly-one-hdf5-file" title="Permanent link">&para;</a></h3>
+<p>The session has zero or multiple matching recordings. Keep one intended <code>*_fiber_photometry.h5</code> in the directory or process recordings in separate session folders.</p>
+<h3 id="missing-demod-datasets">Missing <code>/demod</code> datasets<a class="headerlink" href="#missing-demod-datasets" title="Permanent link">&para;</a></h3>
+<p>The input was not created by a compatible recorder or recording ended before the writer created/appended demod data. Inspect the source HDF5 and repeat acquisition if necessary.</p>
+<h3 id="no-demodulated-samples-remain-after-trimming">No demodulated samples remain after trimming<a class="headerlink" href="#no-demodulated-samples-remain-after-trimming" title="Permanent link">&para;</a></h3>
+<p>The recording is too short, timestamps do not overlap, or the first/last raw timestamps are inconsistent. The fixed trim removes 0.25 s from each end.</p>
+<h3 id="keyerror-f1-e1"><code>KeyError: ('F1', 'E1')</code><a class="headerlink" href="#keyerror-f1-e1" title="Permanent link">&para;</a></h3>
+<p>The current save step assumes both names exist and E1 is processed as a non-reference signal. Rename/configure channels consistently or change the selected key in <code>run_process.py</code>.</p>
+<h3 id="baseline-errors-on-very-short-recordings">Baseline errors on very short recordings<a class="headerlink" href="#baseline-errors-on-very-short-recordings" title="Permanent link">&para;</a></h3>
+<p>The rolling percentile code requires enough samples to form a minimum window. Very short traces may produce invalid window sizing. Use a longer session or reduce the configured baseline window in code.</p>
+<h3 id="pulse-anomaly-messages">Pulse anomaly messages<a class="headerlink" href="#pulse-anomaly-messages" title="Permanent link">&para;</a></h3>
+<p>Check wiring, voltage thresholds, synchronization, and task pulse generation. The expected pulse is 68 +/- 10 ms. The messages are warnings; decide whether the session remains valid before analysis.</p>
+<h3 id="behavioral-mat-was-not-renamed">Behavioral MAT was not renamed<a class="headerlink" href="#behavioral-mat-was-not-renamed" title="Permanent link">&para;</a></h3>
+<p>The function only renames when exactly one non-target <code>.mat</code> file is present. Remove ambiguity or rename the correct file manually to <code>bpod_session_data.mat</code>.</p>
+<h2 id="current-implementation-cautions">Current implementation cautions<a class="headerlink" href="#current-implementation-cautions" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Same-subject, same-day recordings can overwrite each other.</li>
+<li>The Session Log name control does not affect the active HDF5 filename.</li>
+<li>Online amplitude baseline state is calculated but neither applied nor saved.</li>
+<li>Offline downsampling uses stride selection without a new anti-alias filter.</li>
+<li>Pulse anomalies are printed but not saved.</li>
+<li>Only F1/E1 robust z-score is persisted in <code>dff.h5</code>.</li>
+<li>Dummy Suite2p/mask outputs are compatibility placeholders, not biological segmentation results.</li>
+<li><code>LabelExcInh.py</code> is optional legacy/broader-pipeline code and is not invoked by the fiber-photometry entry point.</li>
+</ul>
+<h2 id="minimal-validation-commands">Minimal validation commands<a class="headerlink" href="#minimal-validation-commands" title="Permanent link">&para;</a></h2>
+<p>Syntax-check both projects:</p>
+<pre><code class="language-powershell">python -m compileall -q fiber_photometry_recording_202606 fiber_photometry_processing_pipeline_202605
+</code></pre>
+<p>Build the documentation:</p>
+<pre><code class="language-powershell">mkdocs build --strict
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../api-reference/" class="btn btn-neutral float-left" title="API Reference"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../api-reference/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../javascripts/site.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

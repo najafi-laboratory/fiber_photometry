@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Concepts and Background - Fiber Photometry Workflow</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../stylesheets/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Concepts and Background";
+        var mkdocs_page_input_path = "concepts.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Fiber Photometry Workflow
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../workflow/">End-to-End Workflow</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Concepts and Background</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-the-system-measures">What the system measures</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#try-a-tiny-lock-in-amplifier">Try a tiny lock-in amplifier</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-coherent-blocks-matter">Why coherent blocks matter</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-i-and-q-are-both-used">Why I and Q are both used</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-low-pass-filtering-reveals-amplitude">Why low-pass filtering reveals amplitude</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#reference-excitation-and-motion-correction">Reference excitation and motion correction</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#baseline-and-dff">Baseline and dF/F</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-use-a-robust-z-score">Why use a robust z-score</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-the-code-is-split-into-modules">Why the code is split into modules</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#corepy-describe-before-touching-hardware">core.py: describe before touching hardware</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#devicespy-isolate-hardware-side-effects">devices.py: isolate hardware side effects</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#workerspy-protect-the-gui-event-loop">workers.py: protect the GUI event loop</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#guipy-coordinate-people-threads-plots-and-files">gui.py: coordinate people, threads, plots, and files</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dataiopy-enforce-the-recorderprocessor-contract">DataIO.py: enforce the recorder/processor contract</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dfftracespy-keep-numerical-transformations-inspectable">DffTraces.py: keep numerical transformations inspectable</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#savestructurematchpy-adapt-to-downstream-conventions">SaveStructureMatch.py: adapt to downstream conventions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what-to-inspect-before-trusting-a-result">What to inspect before trusting a result</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../recording/">Online Recording</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../processing/">Processing Pipeline</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data-formats/">Data Formats</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../api-reference/">API Reference</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../operations/">Operations and Troubleshooting</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Fiber Photometry Workflow</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Concepts and Background</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="concepts-and-background">Concepts and Background<a class="headerlink" href="#concepts-and-background" title="Permanent link">&para;</a></h1>
+<p>This page explains the ideas behind the modules. It is intended for readers who need to operate or modify the code but do not yet know why fiber-photometry software is organized this way.</p>
+<h2 id="what-the-system-measures">What the system measures<a class="headerlink" href="#what-the-system-measures" title="Permanent link">&para;</a></h2>
+<p>A photodiode reports one voltage containing the sum of all optical signals reaching it. In this system, multiple LEDs or excitation paths are modulated at different frequencies. The tissue response to each excitation is therefore tagged with that excitation's frequency. Frequency-division multiplexing lets one photodiode carry several separable fluorescence signals at the same time.</p>
+<div class="pipeline-strip">
+  <div class="pipeline-step">Modulate light</div>
+  <div class="pipeline-step">Record mixed voltage</div>
+  <div class="pipeline-step">Demodulate each frequency</div>
+  <div class="pipeline-step">Remove reference</div>
+  <div class="pipeline-step">Calculate dF/F</div>
+</div>
+
+<h2 id="try-a-tiny-lock-in-amplifier">Try a tiny lock-in amplifier<a class="headerlink" href="#try-a-tiny-lock-in-amplifier" title="Permanent link">&para;</a></h2>
+<p>The gray trace is a noisy recorded signal. The green trace is a running average after multiplying that signal by a sine reference. Set the two frequencies equal and the response grows; move them apart and positive and negative products cancel. This is the central idea used by <code>ProcessWorker</code>.</p>
+<div class="signal-lab">
+  <div class="signal-controls">
+    <label>Signal frequency <span id="signal-freq-value">8 Hz</span>
+      <input id="signal-freq" type="range" min="2" max="20" step="1" value="8" />
+    </label>
+    <label>Reference frequency <span id="reference-freq-value">8 Hz</span>
+      <input id="reference-freq" type="range" min="2" max="20" step="1" value="8" />
+    </label>
+    <label>Noise <span id="signal-noise-value">0.35</span>
+      <input id="signal-noise" type="range" min="0" max="1" step="0.05" value="0.35" />
+    </label>
+  </div>
+  <canvas id="signal-canvas" aria-label="Interactive lock-in demodulation demonstration"></canvas>
+  <div id="signal-readout" class="signal-readout"></div>
+</div>
+
+<h2 id="why-coherent-blocks-matter">Why coherent blocks matter<a class="headerlink" href="#why-coherent-blocks-matter" title="Permanent link">&para;</a></h2>
+<p>The recorder does not use arbitrary excitation frequencies exactly as entered. <code>choose_L_and_k()</code> picks a block length and adjusts each frequency to <code>k * Fs / L</code>, where <code>k</code> is an integer. Every acquisition block then contains a whole number of cycles.</p>
+<p>When a block ends midway through a cycle, a Fourier or lock-in view treats the sharp boundary as energy spread across nearby frequencies. This is spectral leakage. Coherent blocks reduce leakage and make neighboring excitation channels easier to separate.</p>
+<h2 id="why-i-and-q-are-both-used">Why I and Q are both used<a class="headerlink" href="#why-i-and-q-are-both-used" title="Permanent link">&para;</a></h2>
+<p>The phase delay between generated light, tissue, detector, and electronics is not guaranteed to be zero. Correlating only with a sine reference would underestimate a signal shifted toward cosine phase. The online processor therefore calculates two components:</p>
+<ul>
+<li><strong>I:</strong> correlation with cosine,</li>
+<li><strong>Q:</strong> correlation with sine.</li>
+</ul>
+<p>Amplitude is calculated as <code>2 * sqrt(I^2 + Q^2)</code>. This magnitude is largely insensitive to phase rotation.</p>
+<h2 id="why-low-pass-filtering-reveals-amplitude">Why low-pass filtering reveals amplitude<a class="headerlink" href="#why-low-pass-filtering-reveals-amplitude" title="Permanent link">&para;</a></h2>
+<p>Multiplying two equal-frequency sine waves produces a constant term plus a component at twice the original frequency. A low-pass filter removes the fast doubled-frequency term and retains the slowly varying amplitude. The recorder uses exponential filters because they can update one sample at a time without storing a long convolution window.</p>
+<p>Two cascaded stages produce stronger rejection of fast components than one stage. The time constants trade responsiveness for smoothness: shorter values react quickly but pass more noise; longer values are smoother but blur fast biological changes.</p>
+<h2 id="reference-excitation-and-motion-correction">Reference excitation and motion correction<a class="headerlink" href="#reference-excitation-and-motion-correction" title="Permanent link">&para;</a></h2>
+<p>The <code>IE</code> excitation is treated as a reference channel by the offline pipeline. The intended assumption is that the reference captures non-calcium variation such as motion, fiber bending, coupling changes, or bleaching, while the signal excitation captures those effects plus calcium-dependent fluorescence.</p>
+<p><code>regress_out_ref()</code> fits the reference contribution with robust Huber regression. Huber loss behaves like squared error for ordinary samples and reduces the influence of large outliers. This is useful when real transients should not dominate the motion-reference fit.</p>
+<p>The correction is statistical, not magical. If IE contains biology of interest, or if artifacts affect IE and E1 differently, regression can remove useful signal or leave residual artifact. Always inspect the raw signal, reference, fitted slope, and residual.</p>
+<h2 id="baseline-and-dff">Baseline and dF/F<a class="headerlink" href="#baseline-and-dff" title="Permanent link">&para;</a></h2>
+<p>Fluorescence changes are easier to compare after normalization to a local baseline:</p>
+<pre><code class="language-text">dF/F = (F - F0) / F0
+</code></pre>
+<p>The pipeline estimates <code>F0</code> with a rolling low percentile. A low percentile follows slow bleaching and drift while avoiding most upward transients. The 60-second window defines how slowly the baseline may move; the 10th percentile assumes the trace spends enough time near baseline within each window.</p>
+<h2 id="why-use-a-robust-z-score">Why use a robust z-score<a class="headerlink" href="#why-use-a-robust-z-score" title="Permanent link">&para;</a></h2>
+<p>The median and median absolute deviation are less sensitive to large events than the mean and standard deviation. The saved normalized trace uses:</p>
+<pre><code class="language-text">z = (x - median(x)) / (1.4826 * median(abs(x - median(x))))
+</code></pre>
+<p>The factor <code>1.4826</code> makes MAD comparable to standard deviation for normally distributed data. This normalization is useful for plotting and comparing event responses, but its units are robust standard deviations, not fractional fluorescence.</p>
+<h2 id="why-the-code-is-split-into-modules">Why the code is split into modules<a class="headerlink" href="#why-the-code-is-split-into-modules" title="Permanent link">&para;</a></h2>
+<h3 id="corepy-describe-before-touching-hardware"><code>core.py</code>: describe before touching hardware<a class="headerlink" href="#corepy-describe-before-touching-hardware" title="Permanent link">&para;</a></h3>
+<p>This module converts human configuration into a deterministic plan. Keeping planning separate makes it possible to validate channel count, sample rate, and coherent frequencies before opening a stream.</p>
+<h3 id="devicespy-isolate-hardware-side-effects"><code>devices.py</code>: isolate hardware side effects<a class="headerlink" href="#devicespy-isolate-hardware-side-effects" title="Permanent link">&para;</a></h3>
+<p>SPI, I2C, DIO timing, LabJack streaming, and mock playback live behind device objects. The rest of the application can consume the same <code>(sample_index, data, names)</code> interface regardless of whether data is real or synthetic.</p>
+<h3 id="workerspy-protect-the-gui-event-loop"><code>workers.py</code>: protect the GUI event loop<a class="headerlink" href="#workerspy-protect-the-gui-event-loop" title="Permanent link">&para;</a></h3>
+<p>Hardware reads and per-sample demodulation can block for too long to run in the main Qt thread. Workers keep controls and plots responsive while signals safely carry data between threads.</p>
+<h3 id="guipy-coordinate-people-threads-plots-and-files"><code>gui.py</code>: coordinate people, threads, plots, and files<a class="headerlink" href="#guipy-coordinate-people-threads-plots-and-files" title="Permanent link">&para;</a></h3>
+<p>The GUI owns user intent: which mode to run, where to save, when the plan is ready, and how errors are displayed. <code>H5Writer</code> is placed here because its lifecycle is tied directly to a recording session.</p>
+<h3 id="dataiopy-enforce-the-recorderprocessor-contract"><code>DataIO.py</code>: enforce the recorder/processor contract<a class="headerlink" href="#dataiopy-enforce-the-recorderprocessor-contract" title="Permanent link">&para;</a></h3>
+<p>Centralizing file validation prevents every analysis function from making slightly different assumptions about paths, channel names, and array shapes.</p>
+<h3 id="dfftracespy-keep-numerical-transformations-inspectable"><code>DffTraces.py</code>: keep numerical transformations inspectable<a class="headerlink" href="#dfftracespy-keep-numerical-transformations-inspectable" title="Permanent link">&para;</a></h3>
+<p>Reference removal, baseline fitting, dF/F, and normalization are separate functions so each intermediate can be plotted, tested, or replaced independently.</p>
+<h3 id="savestructurematchpy-adapt-to-downstream-conventions"><code>SaveStructureMatch.py</code>: adapt to downstream conventions<a class="headerlink" href="#savestructurematchpy-adapt-to-downstream-conventions" title="Permanent link">&para;</a></h3>
+<p>The scientific processing result is not always shaped like the files expected by legacy analysis code. This module creates that compatibility layer without mixing it into the signal-processing functions.</p>
+<h2 id="what-to-inspect-before-trusting-a-result">What to inspect before trusting a result<a class="headerlink" href="#what-to-inspect-before-trusting-a-result" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Raw excitation monitors should be stable and close to configured frequency, Vpp, and Vbias.</li>
+<li>Raw photodiode voltages should not clip or sit at a rail.</li>
+<li>Demodulated amplitudes should be finite and should not jump at chunk boundaries.</li>
+<li>IE and E1 should have a plausible relationship before regression.</li>
+<li>The fitted baseline should follow drift without following individual events.</li>
+<li>Digital pulses should align with the behavioral record.</li>
+<li>The final z-scored trace should always be interpreted alongside raw and intermediate traces.</li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../workflow/" class="btn btn-neutral float-left" title="End-to-End Workflow"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../recording/" class="btn btn-neutral float-right" title="Online Recording">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../workflow/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../recording/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../javascripts/site.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

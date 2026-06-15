@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>End-to-End Workflow - Fiber Photometry Workflow</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../stylesheets/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "End-to-End Workflow";
+        var mkdocs_page_input_path = "workflow.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Fiber Photometry Workflow
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">End-to-End Workflow</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#session-checklist">Session checklist</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1-prepare-the-recording-computer">1. Prepare the recording computer</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-configure-channels">2. Configure channels</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3-build-the-coherent-acquisition-plan">3. Build the coherent acquisition plan</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4-program-and-verify-real-hardware">4. Program and verify real hardware</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5-calibrate-without-saving">5. Calibrate without saving</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6-record-a-session">6. Record a session</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#7-stop-and-inspect-the-recording">7. Stop and inspect the recording</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#8-process-the-session">8. Process the session</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#9-hand-off-to-analysis">9. Hand off to analysis</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Concepts and Background</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../recording/">Online Recording</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../processing/">Processing Pipeline</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data-formats/">Data Formats</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../api-reference/">API Reference</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../operations/">Operations and Troubleshooting</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Fiber Photometry Workflow</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">End-to-End Workflow</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="end-to-end-workflow">End-to-End Workflow<a class="headerlink" href="#end-to-end-workflow" title="Permanent link">&para;</a></h1>
+<p>The complete workflow has two distinct phases. The recording application is responsible for preserving what happened at the instrument, while the processing application converts that source record into normalized signals and filenames expected by downstream analysis.</p>
+<div class="pipeline-strip">
+  <div class="pipeline-step">Configure</div>
+  <div class="pipeline-step">Verify hardware</div>
+  <div class="pipeline-step">Record HDF5</div>
+  <div class="pipeline-step">Process and QC</div>
+  <div class="pipeline-step">Analyze</div>
+</div>
+
+<h2 id="session-checklist">Session checklist<a class="headerlink" href="#session-checklist" title="Permanent link">&para;</a></h2>
+<p>The boxes below are saved in this browser, making this a small reusable bench checklist.</p>
+<div class="workflow-checklist">
+  <label><input type="checkbox" /> Wiring and subject information checked</label>
+  <label><input type="checkbox" /> Plan built and adjusted frequencies reviewed</label>
+  <label><input type="checkbox" /> LUT loaded or built and monitor values verified</label>
+  <label><input type="checkbox" /> Calibration traces inspected</label>
+  <label><input type="checkbox" /> Session file path confirmed before recording</label>
+  <label><input type="checkbox" /> Recording stopped cleanly and HDF5 checked</label>
+  <label><input type="checkbox" /> Processing outputs and pulse QC reviewed</label>
+</div>
+
+<h2 id="1-prepare-the-recording-computer">1. Prepare the recording computer<a class="headerlink" href="#1-prepare-the-recording-computer" title="Permanent link">&para;</a></h2>
+<p>Create the recording environment:</p>
+<pre><code class="language-powershell">conda create -n fiber-photometry python=3.11 -y
+conda activate fiber-photometry
+pip install numpy h5py PyQt6 pyqtgraph labjack-ljm
+</code></pre>
+<p>For real hardware, install the LabJack LJM driver separately. Without LJM, the GUI automatically uses <code>MockT7</code> and can generate synthetic data or play a legacy CSV file.</p>
+<h2 id="2-configure-channels">2. Configure channels<a class="headerlink" href="#2-configure-channels" title="Permanent link">&para;</a></h2>
+<p>Run the recorder:</p>
+<pre><code class="language-powershell">cd fiber_photometry_recording_202606
+python run_fp.py
+</code></pre>
+<p>The default channel configuration is:</p>
+<table>
+<thead>
+<tr>
+<th>Logical name</th>
+<th>Role</th>
+<th>Physical input</th>
+<th>Default frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IE</code></td>
+<td>Reference excitation</td>
+<td><code>AIN0</code> monitor</td>
+<td>811 Hz</td>
+</tr>
+<tr>
+<td><code>E1</code></td>
+<td>Signal excitation</td>
+<td><code>AIN1</code> monitor</td>
+<td>1307 Hz</td>
+</tr>
+<tr>
+<td><code>E2</code></td>
+<td>Signal excitation</td>
+<td><code>AIN2</code> monitor</td>
+<td>2111 Hz</td>
+</tr>
+<tr>
+<td><code>F1</code></td>
+<td>Photodiode</td>
+<td><code>AIN3</code></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>F2</code></td>
+<td>Photodiode</td>
+<td><code>AIN4</code></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>TrialStart</code></td>
+<td>Digital input</td>
+<td><code>MIO0</code></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>Opto</code></td>
+<td>Digital input</td>
+<td><code>MIO1</code></td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+<p>Edit enable state, frequency, Vpp, Vbias, AIN, DAC, and DIO values in the Config tab. The names and roles are read-only because other parts of the workflow use them as semantic identifiers.</p>
+<h2 id="3-build-the-coherent-acquisition-plan">3. Build the coherent acquisition plan<a class="headerlink" href="#3-build-the-coherent-acquisition-plan" title="Permanent link">&para;</a></h2>
+<p>Click <strong>Build Plan</strong>. The application:</p>
+<ol>
+<li>Adds the default AD9833, MCP4728, and shift-register bindings for <code>IE</code>, <code>E1</code>, and <code>E2</code>.</li>
+<li>Collects enabled analog and digital scan channels.</li>
+<li>Limits the per-channel sample rate to <code>100000 / channel_count</code> Hz.</li>
+<li>Chooses a block length <code>L</code> from a fixed candidate set.</li>
+<li>Rounds every excitation frequency to an integer Fourier bin <code>k</code> so each block contains a coherent number of cycles.</li>
+<li>Creates one waveform and one <code>ExcitationPlan</code> per enabled excitation.</li>
+<li>Applies the plan to either <code>T7Device</code> or <code>MockT7</code>.</li>
+</ol>
+<p>Coherent frequencies reduce spectral leakage in online lock-in demodulation. The displayed adjusted frequencies may therefore differ slightly from the requested frequencies.</p>
+<h2 id="4-program-and-verify-real-hardware">4. Program and verify real hardware<a class="headerlink" href="#4-program-and-verify-real-hardware" title="Permanent link">&para;</a></h2>
+<p>In real-T7 mode, <code>T7Device.apply_plan()</code>:</p>
+<ul>
+<li>writes AD9833 frequency words over SPI,</li>
+<li>writes MCP4728 bias voltages over I2C,</li>
+<li>writes six-bit Vpp codes through the parallel shift-register lines,</li>
+<li>resolves LabJack stream addresses for all selected inputs.</li>
+</ul>
+<p>The Vpp code-to-voltage relation is measured into <code>vpp_lut.json</code>. If a valid LUT exists for all enabled excitation names, it is loaded. Otherwise, the GUI starts an interactive 64-code sweep. After the LUT is available, target Vpp values are converted to their nearest measured code and Vbias is iteratively trimmed.</p>
+<p>Use <strong>Verify LUT</strong> to capture monitor waveforms and compare measured frequency, Vpp, and Vbias against the plan. The GUI uses these tolerances:</p>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Tolerance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frequency</td>
+<td>0.5%</td>
+</tr>
+<tr>
+<td>Vpp</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>Vbias</td>
+<td>25 mV</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-calibrate-without-saving">5. Calibrate without saving<a class="headerlink" href="#5-calibrate-without-saving" title="Permanent link">&para;</a></h2>
+<p>The Calibration tab starts the same acquisition and processing threads as a session, but does not create an HDF5 writer. Use it to inspect excitation monitors, raw photodiode signals, digital inputs, and online demodulated amplitudes.</p>
+<h2 id="6-record-a-session">6. Record a session<a class="headerlink" href="#6-record-a-session" title="Permanent link">&para;</a></h2>
+<p>In the Session tab:</p>
+<ol>
+<li>Select a base directory.</li>
+<li>Select or add a subject.</li>
+<li>Choose subject-folder or base-folder storage.</li>
+<li>Click <strong>Start Session</strong>.</li>
+</ol>
+<p>The active filename is always:</p>
+<pre><code class="language-text">SUBJECT_YYYYMMDD_fiber_photometry.h5
+</code></pre>
+<p>The visible Log name field does not currently change the filename. If subject-folder storage is selected, the file is written below <code>BASE_DIR/SUBJECT/</code>; otherwise it is written directly below <code>BASE_DIR/</code>.</p>
+<p>During recording:</p>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant T7 as T7Device or MockT7
+    participant A as AcquireWorker
+    participant P as ProcessWorker
+    participant G as GUI plots
+    participant Q as Queue
+    participant H as H5Writer
+    A-&gt;&gt;T7: start and read_chunk
+    T7--&gt;&gt;A: sample index, channel x sample block, names
+    A-&gt;&gt;P: chunkReady
+    P-&gt;&gt;P: raw buffering and lock-in demodulation
+    P--&gt;&gt;G: uiUpdate at up to 40 Hz
+    P--&gt;&gt;Q: rawBatch for every block
+    Q--&gt;&gt;H: queued block
+    H-&gt;&gt;H: append raw and demod datasets
+</code></pre>
+<p>The processing worker uses two cascaded low-pass lock-in stages, optional DC removal, optional common-mode removal, and demodulation decimation. The GUI currently starts it with 8 ms for both filter stages, 600 Hz demodulation target, 5 s baseline constant, 2 s DC constant, and common-mode removal disabled.</p>
+<h2 id="7-stop-and-inspect-the-recording">7. Stop and inspect the recording<a class="headerlink" href="#7-stop-and-inspect-the-recording" title="Permanent link">&para;</a></h2>
+<p>Click <strong>Stop</strong> before closing the application. The application stops the device, closes both Qt threads, sends a sentinel to the writer queue, flushes metadata, and closes the HDF5 file.</p>
+<p>Confirm that the file contains non-empty <code>/raw/time</code> and <code>/demod/time</code> datasets. Also inspect <code>/meta</code> attribute <code>dropped_chunks_detected</code> and <code>/events/drop_log</code>.</p>
+<h2 id="8-process-the-session">8. Process the session<a class="headerlink" href="#8-process-the-session" title="Permanent link">&para;</a></h2>
+<p>Create the processing environment:</p>
+<pre><code class="language-powershell">conda create -n fiber-photometry-process python=3.11 -y
+conda activate fiber-photometry-process
+pip install numpy matplotlib h5py scipy scikit-learn tifffile tqdm cellpose
+</code></pre>
+<p>Edit <code>list_sess_path</code> in <code>run_process.py</code> so it contains the session directories, then run:</p>
+<pre><code class="language-powershell">cd fiber_photometry_processing_pipeline_202605
+python run_process.py
+</code></pre>
+<p>For every session, the pipeline:</p>
+<ol>
+<li>finds exactly one recording HDF5 file,</li>
+<li>trims 0.25 s from both raw recording edges,</li>
+<li>reports malformed <code>TrialStart</code> and <code>Opto</code> pulses,</li>
+<li>trims demodulated data to the same time interval,</li>
+<li>downsamples demodulated signals to approximately 500 Hz,</li>
+<li>samples digital channels at the nearest raw timestamp,</li>
+<li>writes QC NPY arrays,</li>
+<li>removes the <code>IE</code> reference with robust Huber regression,</li>
+<li>estimates a rolling 10th-percentile baseline over 60 s,</li>
+<li>computes dF/F and median-absolute-deviation z-scores,</li>
+<li>saves the <code>F1/E1</code> robust z-score to <code>dff.h5</code>,</li>
+<li>creates compatibility <code>ops.npy</code>, <code>masks.h5</code>, and <code>raw_voltages.h5</code>,</li>
+<li>renames one behavioral MAT file to <code>bpod_session_data.mat</code> when possible.</li>
+</ol>
+<h2 id="9-hand-off-to-analysis">9. Hand off to analysis<a class="headerlink" href="#9-hand-off-to-analysis" title="Permanent link">&para;</a></h2>
+<p>The downstream analysis-facing files are <code>dff.h5</code>, <code>raw_voltages.h5</code>, <code>masks.h5</code>, <code>suite2p/plane0/ops.npy</code>, and <code>bpod_session_data.mat</code>. The <code>qc_results</code> directory preserves the processed timebase, digital traces, and every demodulated photodiode/excitation pair for inspection or alternate analysis.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../concepts/" class="btn btn-neutral float-right" title="Concepts and Background">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../concepts/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../javascripts/site.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

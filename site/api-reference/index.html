@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>API Reference - Fiber Photometry Workflow</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../stylesheets/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "API Reference";
+        var mkdocs_page_input_path = "api-reference.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Fiber Photometry Workflow
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../workflow/">End-to-End Workflow</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Concepts and Background</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../recording/">Online Recording</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../processing/">Processing Pipeline</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../data-formats/">Data Formats</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">API Reference</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#recording-run_fppy">Recording: run_fp.py</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recording-corepy">Recording: core.py</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#data-containers">Data containers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recording-devicespy">Recording: devices.py</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#protocol-helpers">Protocol helpers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mockt7">MockT7</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#t7device">T7Device</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recording-workerspy">Recording: workers.py</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recording-guipy">Recording: gui.py</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#h5writer">H5Writer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#multiplotadapter">MultiPlotAdapter</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#channeltable">ChannelTable</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mainwindow">MainWindow</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-dataiopy">Processing: DataIO.py</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-dfftracespy">Processing: DffTraces.py</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-savestructurematchpy">Processing: SaveStructureMatch.py</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#processing-run_processpy">Processing: run_process.py</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#optional-processing-labelexcinhpy">Optional processing: LabelExcInh.py</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../operations/">Operations and Troubleshooting</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Fiber Photometry Workflow</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<p>This page is a lookup guide. For the scientific reason behind coherent frequencies, I/Q mixing, reference regression, rolling baselines, and robust normalization, read <a href="../concepts/">Concepts and Background</a>.</p>
+<details class="function-background">
+<summary>How to read a function entry</summary>
+
+Private names beginning with `_` are implementation details used inside their module or class. Public entry points such as `build_plan()`, `run_postprocess()`, and `main()` define the main workflow. Constructors establish state; worker slots perform long-running work; helper functions isolate one hardware protocol or numerical transformation.
+
+</details>
+
+<h2 id="recording-run_fppy">Recording: <code>run_fp.py</code><a class="headerlink" href="#recording-run_fppy" title="Permanent link">&para;</a></h2>
+<dl>
+<dt><code>main()</code></dt>
+<dd>Reuses or creates the Qt application, constructs <code>MainWindow(use_hw=True)</code>, displays it, starts the Qt event loop, and exits with the event-loop status. Real hardware is still conditional on a successful LJM import.</dd>
+</dl>
+<h2 id="recording-corepy">Recording: <code>core.py</code><a class="headerlink" href="#recording-corepy" title="Permanent link">&para;</a></h2>
+<h3 id="data-containers">Data containers<a class="headerlink" href="#data-containers" title="Permanent link">&para;</a></h3>
+<dl>
+<dt><code>ChannelSpec(name, role, enabled=True, target_freq=None, vpp=0.4, vbias=3.0, von=None, ain=None, dac=None, dio=None, ad9833=None, mcp4728=None, vpp_shift=None)</code></dt>
+<dd>Stores one user-facing channel definition. Attributes are copied directly from constructor arguments.</dd>
+<dt><code>AD9833Cfg(cs_dio, clk_dio='DIO3', miso_dio='DIO18', mosi_dio='DIO4', spi_mode=2, speed_throttle=0, mclk_hz=25000000.0)</code></dt>
+<dd>Stores AD9833 wiring and SPI settings.</dd>
+<dt><code>MCP4728Cfg(chan, sda=2, scl=1, addr7=96, speed_throttle=65516)</code></dt>
+<dd>Stores MCP4728 channel and LabJack I2C settings.</dd>
+<dt><code>ShiftVppCfg(ser_dio, srclk_dio='DIO11', rclk_dio='DIO12', nbits=6, msb_first=False)</code></dt>
+<dd>Stores one Vpp shift-register data line and shared clock settings.</dd>
+<dt><code>ExcitationPlan(**kw)</code> / <code>DevicePlan(**kw)</code></dt>
+<dd>Generic attribute containers for calculated excitation and device plans.</dd>
+</dl>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
+<dl>
+<dt><code>choose_L_and_k(Fs, targets, max_L=4096)</code></dt>
+<dd>Tests block lengths <code>[512, 768, 1000, 1024, 1600, 2000, 2048, 3072, 4096]</code>, rounds targets to integer bins, and returns <code>(L, k, adjusted_frequencies)</code> for the lowest frequency-error plus block-size score.</dd>
+<dt><code>build_plan(specs, Fs_requested, max_L=4096)</code></dt>
+<dd>Validates enabled excitations, zeros disabled excitations, selects scan channels, limits sample rate, calculates coherent frequencies, creates excitation waveforms, and returns a <code>DevicePlan</code>.</dd>
+</dl>
+<h2 id="recording-devicespy">Recording: <code>devices.py</code><a class="headerlink" href="#recording-devicespy" title="Permanent link">&para;</a></h2>
+<h3 id="protocol-helpers">Protocol helpers<a class="headerlink" href="#protocol-helpers" title="Permanent link">&para;</a></h3>
+<dl>
+<dt><code>_mcp4728_build_simple(chan_letter, volts)</code></dt>
+<dd>Clamps voltage, converts it to a 12-bit code, and returns a three-byte MCP4728 write command.</dd>
+<dt><code>_ad9833_words_for_freq(f_hz, mclk)</code></dt>
+<dd>Returns the low and high 14-bit AD9833 frequency-register words.</dd>
+<dt><code>_spi_tx_words(handle, cs, clk, miso, mosi, words, mode, speed_throttle)</code></dt>
+<dd>Configures LabJack SPI registers and transmits 16-bit words in big-endian byte order.</dd>
+<dt><code>_i2c_tx_bytes_rate_limited(...)</code></dt>
+<dd>Serializes writes by I2C address, enforces a minimum interval, configures LabJack I2C registers, and transmits a payload.</dd>
+<dt><code>_dio_write(h, pin, v)</code></dt>
+<dd>Writes one boolean DIO value.</dd>
+<dt><code>_shift_vpp_parallel(h, ser_pins, srclk, rclk, codes, nbits, msb_first)</code></dt>
+<dd>Bit-bangs multiple serial data lines in parallel and latches the resulting Vpp codes.</dd>
+</dl>
+<h3 id="mockt7"><code>MockT7</code><a class="headerlink" href="#mockt7" title="Permanent link">&para;</a></h3>
+<dl>
+<dt><code>__init__()</code></dt>
+<dd>Initializes deterministic synthetic random state, playback state, sample counters, and optional metadata holders.</dd>
+<dt><code>load_csv(path)</code></dt>
+<dd>Reads legacy timestamped CSV playback data and optional JSON metadata comments.</dd>
+<dt><code>get_loaded_metadata()</code></dt>
+<dd>Returns loaded plan, channel, and channel-key metadata or <code>None</code>.</dd>
+<dt><code>apply_plan(plan)</code></dt>
+<dd>Stores the plan, establishes measurement order, and reconciles playback row count.</dd>
+<dt><code>start()</code> / <code>stop()</code></dt>
+<dd>Reset playback state and control the mock running flag.</dd>
+<dt><code>_synth_chunk(L, Fs)</code></dt>
+<dd>Generates noisy excitation monitors, mixed-frequency photodiode signals, and random digital pulses.</dd>
+<dt><code>_playback_chunk(L)</code></dt>
+<dd>Returns the next playback block and wraps at the file end.</dd>
+<dt><code>read_chunk()</code></dt>
+<dd>Waits until the next real-time block slot and returns <code>(starting_sample, data, names)</code>.</dd>
+</dl>
+<h3 id="t7device"><code>T7Device</code><a class="headerlink" href="#t7device" title="Permanent link">&para;</a></h3>
+<dl>
+<dt><code>__init__()</code></dt>
+<dd>Initializes the LabJack handle, plan, stream state, sample counter, and measurement names without opening hardware yet.</dd>
+<dt><code>_open()</code> / <code>_close()</code> / <code>dispose()</code></dt>
+<dd>Open, configure, stop, and close the LabJack handle.</dd>
+<dt><code>apply_plan(plan)</code></dt>
+<dd>Programs external excitation devices and resolves stream scan addresses.</dd>
+<dt><code>apply_plan_settings(lut_path='vpp_lut.json', force_rebuild_lut=False, retrim_bias=True)</code></dt>
+<dd>Ensures LUT availability, applies target Vpp/Vbias, and prints a final monitor snapshot.</dd>
+<dt><code>start()</code> / <code>stop()</code> / <code>read_chunk()</code></dt>
+<dd>Manage the LabJack stream and return channel-major float32 blocks.</dd>
+<dt><code>__del__()</code></dt>
+<dd>Best-effort call to <code>dispose()</code> during object destruction.</dd>
+<dt><code>_exc_monitors()</code></dt>
+<dd>Returns <code>(excitation_name, monitor_ain)</code> pairs.</dd>
+<dt><code>measure_monitors_pp(duration_s=0.1, rate=None, settling_us=10, qtrim=0.005)</code></dt>
+<dd>Temporarily streams monitor AINs and returns median Vbias plus quantile-based Vpp.</dd>
+<dt><code>_parallel_shift_codes(codes_by_name)</code></dt>
+<dd>Merges requested and current codes, validates shared shift settings, writes them, and caches current codes.</dd>
+<dt><code>calibrate_vpp_luts(codes=range(64), settle_s=0.015, measure_s=0.08, save_json=None)</code></dt>
+<dd>Sweeps codes, measures Vpp, optionally saves JSON, and returns channel LUTs.</dd>
+<dt><code>load_vpp_luts(path)</code> / <code>ensure_vpp_luts(...)</code></dt>
+<dd>Validate and load a LUT or rebuild it when needed.</dd>
+<dt><code>set_vbias_target(name, target_vbias=1.5, tol=0.01, max_iter=3, ...)</code></dt>
+<dd>Iteratively adjusts the MCP4728 command using measured bias error.</dd>
+<dt><code>set_vpp_target(name, target_vpp, clamp=True, retrim_bias=True, ...)</code></dt>
+<dd>Selects the nearest measured LUT code, writes it, and optionally retrims Vbias.</dd>
+<dt><code>sample_monitors_raw(window_s=0.003, settling_us=10)</code></dt>
+<dd>Captures one short raw monitor waveform for plotting and frequency estimation.</dd>
+</dl>
+<h2 id="recording-workerspy">Recording: <code>workers.py</code><a class="headerlink" href="#recording-workerspy" title="Permanent link">&para;</a></h2>
+<dl>
+<dt><code>VppLutWorker.__init__(dev, codes=None, plot_win_s=0.003, settle_s=0.015, measure_s=0.08)</code></dt>
+<dd>Stores the device and sweep timing. The default code list is all integers from 0 through 63.</dd>
+<dt><code>VppLutWorker.run()</code> / <code>stop()</code></dt>
+<dd>Background 64-code LUT sweep with waveform, status, result, and error signals.</dd>
+<dt><code>AcquireWorker.__init__(device)</code></dt>
+<dd>Stores the selected real or mock device and initializes the running flag.</dd>
+<dt><code>AcquireWorker.start_loop()</code> / <code>stop()</code></dt>
+<dd>Starts a device, repeatedly reads chunks, emits plan metadata with each block, and stops safely.</dd>
+<dt><code>ProcessWorker.__init__(plan, ui_hz=40.0, max_window_s=10.0, tau1_ms=10.0, tau2_ms=10.0, decim_hz=500.0, baseline_sec=5.0, dc_tau_s=2.0, common_mode=True)</code></dt>
+<dd>Stores the plan and processing parameters and initializes all streaming filter/buffer state.</dd>
+<dt><code>ProcessWorker.stop()</code></dt>
+<dd>Clears the processing running flag.</dd>
+<dt><code>ProcessWorker.process_chunk(chunk)</code></dt>
+<dd>Converts one acquisition block into a raw writer item and optional demodulated block.</dd>
+<dt><code>ProcessWorker._ingest_raw(...)</code></dt>
+<dd>Builds timestamps and retains a trailing raw-data window.</dd>
+<dt><code>ProcessWorker._init_lockin_state(names)</code></dt>
+<dd>Resolves photodiodes, filter constants, reference tables, and state arrays.</dd>
+<dt><code>ProcessWorker._lockin_stream(...)</code></dt>
+<dd>Performs sample-wise quadrature mixing, filtering, amplitude calculation, and decimation.</dd>
+<dt><code>ProcessWorker._maybe_emit_ui(Fs)</code></dt>
+<dd>Concatenates retained blocks and emits a throttled plot payload.</dd>
+</dl>
+<h2 id="recording-guipy">Recording: <code>gui.py</code><a class="headerlink" href="#recording-guipy" title="Permanent link">&para;</a></h2>
+<h3 id="h5writer"><code>H5Writer</code><a class="headerlink" href="#h5writer" title="Permanent link">&para;</a></h3>
+<dl>
+<dt><code>__init__(q, path, specs=None, plan=None, override_plan=None, override_channels=None, override_channel_key=None, chunk_len=8192)</code></dt>
+<dd>Configures the daemon writer, metadata sources, dataset state, chunk length, counters, and gap tracking.</dd>
+<dt><code>run()</code></dt>
+<dd>Consumes queued blocks until stopped, prepares the file on the first block, appends data, and closes cleanly.</dd>
+<dt><code>_open_and_prepare(meas_names)</code></dt>
+<dd>Creates metadata, raw, demod, and event groups and resolves channel row indices.</dd>
+<dt><code>_append_block(item)</code></dt>
+<dd>Detects sample gaps and extends raw/demod datasets.</dd>
+<dt><code>stop()</code></dt>
+<dd>Sets the stop flag and queues a sentinel when possible.</dd>
+</dl>
+<h3 id="multiplotadapter"><code>MultiPlotAdapter</code><a class="headerlink" href="#multiplotadapter" title="Permanent link">&para;</a></h3>
+<dl>
+<dt><code>__init__(plan, specs, plots, window_sec, demod_ylim)</code></dt>
+<dd>Builds logical-to-physical channel maps, curve registries, colors, and initial axis limits.</dd>
+<dt><code>reset_items()</code> / <code>set_window()</code> / <code>_fix_xranges()</code></dt>
+<dd>Reset curve registries and control the plot time window.</dd>
+<dt><code>update(payload)</code></dt>
+<dd>Dispatches raw and demodulated payloads.</dd>
+<dt><code>_subset_and_rescale_time(t, window)</code></dt>
+<dd>Selects the trailing window and maps its start to zero.</dd>
+<dt><code>_downsample(y)</code></dt>
+<dd>Reduces long arrays to a 2,000-point min/max envelope.</dd>
+<dt><code>_update_raw(...)</code> / <code>_update_demod(...)</code></dt>
+<dd>Create or update curves for excitation, digital, photodiode, and amplitude panels.</dd>
+</dl>
+<h3 id="channeltable"><code>ChannelTable</code><a class="headerlink" href="#channeltable" title="Permanent link">&para;</a></h3>
+<dl>
+<dt><code>__init__()</code></dt>
+<dd>Creates the nine-column channel table and configures headers and row appearance.</dd>
+<dt><code>populate(specs)</code></dt>
+<dd>Creates editable rows from channel specs.</dd>
+<dt><code>_ro(...)</code>, <code>_num(...)</code>, <code>_str(...)</code></dt>
+<dd>Create read-only, numeric-text, and text cells.</dd>
+<dt><code>pull(specs)</code></dt>
+<dd>Writes current table values back into the existing specs.</dd>
+</dl>
+<h3 id="mainwindow"><code>MainWindow</code><a class="headerlink" href="#mainwindow" title="Permanent link">&para;</a></h3>
+<dl>
+<dt><code>__init__(use_hw=False)</code></dt>
+<dd>Creates default channel specs and application state, selects <code>T7Device</code> only when requested and available, loads subjects, builds the UI, and synchronizes hardware controls.</dd>
+<dt><code>_build_ui()</code> / <code>_build_plot_grid(...)</code></dt>
+<dd>Construct the three tabs, controls, LUT panels, and live plots.</dd>
+<dt><code>_load_subjects()</code> / <code>_save_subjects()</code></dt>
+<dd>Read and write <code>subjects.json</code>.</dd>
+<dt><code>_on_set_base_dir()</code>, <code>_on_add_subject()</code>, <code>_on_del_subject()</code>, <code>_update_storage_mode()</code>, <code>_safe_name()</code></dt>
+<dd>Manage session path and subject controls.</dd>
+<dt><code>_maybe_auto_verify()</code>, <code>_color_span()</code>, <code>_format_verify_html()</code>, <code>_estimate_freq()</code></dt>
+<dd>Measure excitation performance and format pass/fail metrics.</dd>
+<dt><code>_lut_in_progress()</code> / <code>_set_plan_ready()</code></dt>
+<dd>Track whether sessions may start.</dd>
+<dt><code>_auto_range_session()</code></dt>
+<dd>Calculate and lock current plot Y ranges.</dd>
+<dt><code>_on_hw_mode_changed()</code> / <code>_on_load_session_file()</code></dt>
+<dd>Enable mock playback controls and load a CSV.</dd>
+<dt><code>_on_verify_lut()</code></dt>
+<dd>Capture excitation monitor data and compare it with configured targets.</dd>
+<dt><code>on_build_plan()</code></dt>
+<dd>Read the table, attach default hardware bindings, build/apply a plan, and load or start a LUT.</dd>
+<dt><code>_cleanup_after_lut_abort()</code>, <code>_on_abort_lut()</code>, <code>_on_build_lut()</code>, <code>_on_lut_thread_finished()</code>, <code>_on_lut_wave()</code>, <code>_on_lut_status()</code>, <code>_on_lut_finished()</code>, <code>_on_lut_error()</code></dt>
+<dd>Manage the complete asynchronous LUT-build lifecycle.</dd>
+<dt><code>_clear_plot_widgets(plots)</code></dt>
+<dd>Clear curves and restore legends/X ranges before a new run.</dd>
+<dt><code>_start_pipeline(mode)</code></dt>
+<dd>Validate readiness, select output path, start the writer and Qt workers, and update button states.</dd>
+<dt><code>on_stop()</code></dt>
+<dd>Stop workers, threads, and writer and restore idle controls.</dd>
+<dt><code>_on_ui_update(payload)</code> / <code>_on_raw_batch(payload)</code> / <code>_on_error(msg)</code> / <code>_update_window(v)</code> / <code>closeEvent(e)</code></dt>
+<dd>Route plot data, enqueue recording blocks, show errors, update windows, and shut down.</dd>
+</dl>
+<h2 id="processing-dataiopy">Processing: <code>DataIO.py</code><a class="headerlink" href="#processing-dataiopy" title="Permanent link">&para;</a></h2>
+<dl>
+<dt><code>read_json(dset)</code></dt>
+<dd>Decode a scalar byte/string HDF5 dataset and parse JSON.</dd>
+<dt><code>load_h5(h5_path)</code></dt>
+<dd>Open read-only HDF5 and return the file, channel-key mapping, and digital physical names.</dd>
+<dt><code>read_demod(h5)</code></dt>
+<dd>Validate required demod datasets, load arrays/names, and verify shape and non-empty time.</dd>
+<dt><code>resolve_h5_path(sess_path)</code></dt>
+<dd>Require exactly one session recording matching the expected suffix.</dd>
+<dt><code>read_raw_time(h5)</code></dt>
+<dd>Return <code>/raw/time</code>.</dd>
+<dt><code>get_digital(h5, channel_key, digital_names, name, start, stop)</code></dt>
+<dd>Resolve a friendly digital name and return a float32 raw slice or <code>None</code>.</dd>
+<dt><code>resample_data(...)</code></dt>
+<dd>Stride-downsample demod data and align digital traces to the resulting timestamps.</dd>
+<dt><code>qc_output_dir(sess_path)</code></dt>
+<dd>Return <code>SESSION/qc_results</code>.</dd>
+<dt><code>load_export(sess_path, out_dir=None, mmap_mode='r')</code></dt>
+<dd>Load all QC NPY files into a dictionary.</dd>
+<dt><code>export_npy(out_dir, result, digitals)</code></dt>
+<dd>Save time, digital traces, and every PD/excitation amplitude separately.</dd>
+</dl>
+<h2 id="processing-dfftracespy">Processing: <code>DffTraces.py</code><a class="headerlink" href="#processing-dfftracespy" title="Permanent link">&para;</a></h2>
+<dl>
+<dt><code>roll_pct_baseline(y, t, window_s=60, pct=10)</code></dt>
+<dd>Replace NaNs and calculate an odd-window rolling percentile baseline.</dd>
+<dt><code>mad_z(x, eps=1e-9)</code></dt>
+<dd>Return median/MAD robust z-scores.</dd>
+<dt><code>regress_out_ref(y, x, epsilon=1.5, preserve_dc=True)</code></dt>
+<dd>Robustly regress a reference trace from a signal and return residual plus slope.</dd>
+<dt><code>postprocess(t, y, ref=None, ...)</code></dt>
+<dd>Return all reference-removal, baseline, dF/F, and normalization stages.</dd>
+<dt><code>compute_dff_traces(result, reference_exc='IE', signal_excs=None, ...)</code></dt>
+<dd>Process every requested non-reference excitation for every photodiode.</dd>
+</dl>
+<h2 id="processing-savestructurematchpy">Processing: <code>SaveStructureMatch.py</code><a class="headerlink" href="#processing-savestructurematchpy" title="Permanent link">&para;</a></h2>
+<dl>
+<dt><code>save_dff(sess_path, dff)</code></dt>
+<dd>Reshape one trace to <code>(1, samples)</code> and overwrite <code>dff.h5</code>.</dd>
+<dt><code>create_dummy_ops(sess_path)</code></dt>
+<dd>Create minimal <code>suite2p/plane0/ops.npy</code>.</dd>
+<dt><code>create_dummy_masks(sess_path)</code></dt>
+<dd>Create placeholder <code>masks.h5</code> arrays.</dd>
+<dt><code>move_bpod_mat(sess_path)</code></dt>
+<dd>Rename one unambiguous MAT file to the expected behavioral filename.</dd>
+<dt><code>process_vol(sess_path, result, digitals, upsample_factor=5)</code></dt>
+<dd>Build the dense millisecond voltage timebase, map digital inputs, create compatibility channels, and save <code>raw_voltages.h5</code>.</dd>
+<dt>Nested <code>binary_trace(name)</code></dt>
+<dd>Fetches and binarizes a named digital trace, validates its length, and repeats samples onto the dense voltage timebase; missing channels become zeros.</dd>
+</dl>
+<h2 id="processing-run_processpy">Processing: <code>run_process.py</code><a class="headerlink" href="#processing-run_processpy" title="Permanent link">&para;</a></h2>
+<dl>
+<dt><code>pulse_anomalies(time, signal, expected_s=0.068, tolerance_s=0.010)</code></dt>
+<dd>Return unpaired-edge and width anomaly dictionaries.</dd>
+<dt><code>plot_raw_overview(result)</code>, <code>plot_digitals(t, digitals)</code>, <code>plot_steps(t, r, title='')</code>, <code>plot_dff_results(t, dff_results)</code></dt>
+<dd>Display raw, digital, and processing-stage QC figures.</dd>
+<dt><code>run_postprocess(sess_path, plot=False)</code></dt>
+<dd>Execute the complete session processing workflow and return <code>(written_npy_paths, dff_results)</code>.</dd>
+</dl>
+<h2 id="optional-processing-labelexcinhpy">Optional processing: <code>LabelExcInh.py</code><a class="headerlink" href="#optional-processing-labelexcinhpy" title="Permanent link">&para;</a></h2>
+<dl>
+<dt><code>normz(data)</code></dt>
+<dd>Mean/std z-score with a small denominator offset.</dd>
+<dt><code>run_cellpose(ops, mean_anat, diameter, flow_threshold=0.5)</code></dt>
+<dd>Save the anatomical mean image, run Cellpose <code>cyto3</code>, save segmentation artifacts, and return masks.</dd>
+<dt><code>get_mask(ops)</code></dt>
+<dd>Crop functional masks/images to Suite2p ranges and return optional anatomical mean image.</dd>
+<dt><code>get_ch_traces(ops)</code></dt>
+<dd>Load Suite2p <code>F.npy</code> and <code>F_chan2.npy</code>.</dd>
+<dt><code>anat_bleedthrough_correction(...)</code></dt>
+<dd>Optimize a linear anatomical-channel correction by minimizing absolute trace correlation.</dd>
+<dt>Nested <code>objective(...)</code>, <code>optimize()</code>, and <code>correct_anat(...)</code></dt>
+<dd>Score corrected trace correlation, solve for linear correction parameters with L-BFGS-B, and apply those parameters to the anatomical mean image.</dd>
+<dt><code>get_label(masks_func, masks_anat, thres1=0.2, thres2=0.9)</code></dt>
+<dd>Calculate maximum relative overlaps; assign <code>-1</code> below 0.2, <code>1</code> above 0.9, and <code>0</code> otherwise.</dd>
+<dt><code>save_masks(...)</code></dt>
+<dd>Write functional images, labels, and optional anatomical data to <code>masks.h5</code>.</dd>
+<dt><code>run(ops, diameter)</code></dt>
+<dd>Orchestrate single-channel default labeling or two-channel Cellpose labeling.</dd>
+</dl>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../data-formats/" class="btn btn-neutral float-left" title="Data Formats"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../operations/" class="btn btn-neutral float-right" title="Operations and Troubleshooting">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../data-formats/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../operations/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../javascripts/site.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

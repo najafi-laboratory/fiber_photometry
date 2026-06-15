@@ -1,5 +1,29 @@
 # End-to-End Workflow
 
+The complete workflow has two distinct phases. The recording application is responsible for preserving what happened at the instrument, while the processing application converts that source record into normalized signals and filenames expected by downstream analysis.
+
+<div class="pipeline-strip">
+  <div class="pipeline-step">Configure</div>
+  <div class="pipeline-step">Verify hardware</div>
+  <div class="pipeline-step">Record HDF5</div>
+  <div class="pipeline-step">Process and QC</div>
+  <div class="pipeline-step">Analyze</div>
+</div>
+
+## Session checklist
+
+The boxes below are saved in this browser, making this a small reusable bench checklist.
+
+<div class="workflow-checklist">
+  <label><input type="checkbox" /> Wiring and subject information checked</label>
+  <label><input type="checkbox" /> Plan built and adjusted frequencies reviewed</label>
+  <label><input type="checkbox" /> LUT loaded or built and monitor values verified</label>
+  <label><input type="checkbox" /> Calibration traces inspected</label>
+  <label><input type="checkbox" /> Session file path confirmed before recording</label>
+  <label><input type="checkbox" /> Recording stopped cleanly and HDF5 checked</label>
+  <label><input type="checkbox" /> Processing outputs and pulse QC reviewed</label>
+</div>
+
 ## 1. Prepare the recording computer
 
 Create the recording environment:
@@ -153,4 +177,3 @@ For every session, the pipeline:
 ## 9. Hand off to analysis
 
 The downstream analysis-facing files are `dff.h5`, `raw_voltages.h5`, `masks.h5`, `suite2p/plane0/ops.npy`, and `bpod_session_data.mat`. The `qc_results` directory preserves the processed timebase, digital traces, and every demodulated photodiode/excitation pair for inspection or alternate analysis.
-

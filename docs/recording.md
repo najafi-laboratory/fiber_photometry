@@ -10,6 +10,8 @@ The recording application combines five responsibilities:
 - calculate live lock-in amplitudes,
 - plot and save raw plus demodulated data.
 
+The important design principle is separation between **configuration**, **hardware I/O**, **continuous numerical work**, and **user-interface coordination**. Hardware and demodulation cannot be allowed to freeze the Qt event loop, and file writing should not delay acquisition. That is why the project uses a plan object, device abstraction, Qt workers, and a separate writer thread.
+
 ## Project layout
 
 | File | Responsibility |
@@ -76,6 +78,8 @@ Loading validates that every enabled Vpp-controlled excitation exists and has ex
 
 ## Online demodulation
 
+Online demodulation is a digital lock-in amplifier. A lock-in amplifier extracts the part of a noisy signal that oscillates at a known reference frequency. Signals at other frequencies multiply into alternating positive and negative values that mostly cancel after low-pass filtering. See [Concepts and Background](concepts.md) for an interactive illustration.
+
 `ProcessWorker` identifies photodiode rows as scanned analog inputs that are not excitation monitors. For each sample and each excitation it:
 
 1. selects the coherent sine/cosine reference value using the absolute sample index modulo `L`,
@@ -126,4 +130,3 @@ Plot data is limited to the selected trailing window. Raw traces above 2,000 poi
 ## Session shutdown
 
 `on_stop()` requests device and processor stop, quits and waits up to two seconds for each Qt thread, then stops and joins the HDF5 writer for up to two seconds. Closing the main window invokes the same sequence.
-

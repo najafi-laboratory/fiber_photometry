@@ -1,5 +1,14 @@
 # API Reference
 
+This page is a lookup guide. For the scientific reason behind coherent frequencies, I/Q mixing, reference regression, rolling baselines, and robust normalization, read [Concepts and Background](concepts.md).
+
+<details class="function-background">
+<summary>How to read a function entry</summary>
+
+Private names beginning with `_` are implementation details used inside their module or class. Public entry points such as `build_plan()`, `run_postprocess()`, and `main()` define the main workflow. Constructors establish state; worker slots perform long-running work; helper functions isolate one hardware protocol or numerical transformation.
+
+</details>
+
 ## Recording: `run_fp.py`
 
 `main()`

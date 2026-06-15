@@ -1,0 +1,188 @@
+/* Match the laboratory reference site: wide, white, restrained, and readable. */
+.wy-nav-content {
+  max-width: 1100px;
+}
+
+.wy-nav-content-wrap {
+  background: #fff;
+}
+
+.workflow-heading {
+  margin-bottom: 0.1rem;
+}
+
+.workflow-steps {
+  margin-top: 0.1rem;
+}
+
+.overview-flowchart img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.doc-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0 1.5rem;
+}
+
+.doc-card {
+  display: block;
+  padding: 1rem 1.1rem;
+  color: #1f2937 !important;
+  background: #fff;
+  border: 1px solid #d8dee9;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.09);
+  text-decoration: none;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.doc-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.13);
+}
+
+.doc-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #1f6f43;
+  font-size: 1.05rem;
+}
+
+.doc-card span {
+  display: block;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.pipeline-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.55rem;
+  align-items: stretch;
+  margin: 1.25rem 0 1.5rem;
+}
+
+.pipeline-step {
+  position: relative;
+  padding: 0.85rem 0.65rem;
+  border: 1px solid #d8dee9;
+  border-radius: 8px;
+  background: #f8fafc;
+  text-align: center;
+  font-weight: 600;
+}
+
+.pipeline-step:not(:last-child)::after {
+  position: absolute;
+  top: 50%;
+  right: -0.48rem;
+  z-index: 2;
+  padding: 0 0.12rem;
+  color: #64748b;
+  background: #fff;
+  content: "\2192";
+  transform: translateY(-50%);
+}
+
+.signal-lab {
+  margin: 1.25rem 0;
+  padding: 1rem 1.1rem 1.15rem;
+  border: 1px solid #d8dee9;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+.signal-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem 1rem;
+  margin: 0.8rem 0;
+}
+
+.signal-controls label {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.signal-controls input {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.signal-lab canvas {
+  display: block;
+  width: 100%;
+  height: 230px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.signal-readout {
+  margin-top: 0.65rem;
+  color: #475569;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.workflow-checklist {
+  margin: 1rem 0 1.5rem;
+  padding: 1rem 1.1rem;
+  border-left: 4px solid #1f6f43;
+  background: #f8fafc;
+}
+
+.workflow-checklist label {
+  display: block;
+  margin: 0.45rem 0;
+  cursor: pointer;
+}
+
+.workflow-checklist input {
+  margin-right: 0.45rem;
+}
+
+.workflow-checklist label.done {
+  color: #718096;
+  text-decoration: line-through;
+}
+
+.mini-note {
+  padding: 0.8rem 1rem;
+  border-left: 4px solid #64748b;
+  background: #f8fafc;
+}
+
+details.function-background {
+  margin: 0.6rem 0 1rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d8dee9;
+  border-radius: 6px;
+  background: #fbfdff;
+}
+
+details.function-background summary {
+  color: #1f6f43;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .pipeline-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .pipeline-step:not(:last-child)::after {
+    top: auto;
+    right: 50%;
+    bottom: -0.7rem;
+    transform: translateX(50%) rotate(90deg);
+  }
+}
+

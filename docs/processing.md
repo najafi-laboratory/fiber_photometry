@@ -4,6 +4,8 @@
 
 The processing project converts one recorder HDF5 file into QC arrays, normalized fluorescence, digital-event voltage files, and a small set of compatibility artifacts expected by an existing analysis workflow.
 
+The processing stage deliberately leaves the original recording untouched. The HDF5 file is the source record; generated NPY and HDF5 outputs are reproducible derivatives. This distinction matters when parameters change or a questionable result needs to be traced back through trimming, reference removal, and baseline estimation.
+
 ## Project layout
 
 | File | Responsibility |
@@ -64,6 +66,8 @@ This is decimation without an additional offline anti-alias filter. The online l
 Each digital output is sampled from the nearest raw timestamp at or after the demodulated timestamp, with indices clipped to the available range.
 
 ## dF/F calculation
+
+The numerical stages answer different questions. Reference regression asks, "how much of this signal follows the artifact reference?" Baseline estimation asks, "what is the local resting fluorescence?" dF/F expresses change relative to that baseline, and robust z-scoring expresses how unusual each value is relative to the session's typical variation.
 
 For every photodiode and every non-`IE` excitation, `compute_dff_traces()` performs:
 
@@ -150,4 +154,3 @@ Call `run_postprocess(session, plot=True)` to show:
 - reference-removed residual,
 - rolling baseline,
 - dF/F and robust z-score.
-

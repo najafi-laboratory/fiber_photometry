@@ -6,16 +6,21 @@ theme:
 nav:
   - Home: index.md
   - End-to-End Workflow: workflow.md
+  - Concepts and Background: concepts.md
   - Online Recording: recording.md
   - Processing Pipeline: processing.md
   - Data Formats: data-formats.md
   - API Reference: api-reference.md
   - Operations and Troubleshooting: operations.md
+extra_css:
+  - stylesheets/extra.css
+extra_javascript:
+  - javascripts/site.js
 markdown_extensions:
   - admonition
   - attr_list
   - def_list
+  - md_in_html
   - tables
   - toc:
       permalink: true
-
