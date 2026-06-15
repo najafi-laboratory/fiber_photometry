@@ -1,0 +1,21 @@
+site_name: Fiber Photometry Workflow
+site_description: Recording, processing, and analysis-preparation documentation
+docs_dir: docs
+theme:
+  name: readthedocs
+nav:
+  - Home: index.md
+  - End-to-End Workflow: workflow.md
+  - Online Recording: recording.md
+  - Processing Pipeline: processing.md
+  - Data Formats: data-formats.md
+  - API Reference: api-reference.md
+  - Operations and Troubleshooting: operations.md
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - tables
+  - toc:
+      permalink: true
+
