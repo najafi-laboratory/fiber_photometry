@@ -23,6 +23,14 @@ def create_dummy_ops(sess_path):
     np.save(os.path.join(save_dir, 'suite2p', 'plane0', 'ops.npy'), ops)
     return ops
 
+# mark the single photometry ROI as good using the ROI QC export format.
+def create_dummy_roi_manual_labels(sess_path):
+    print('Saving dummy roi_manual_labels.npy')
+    save_dir = sess_path
+    os.makedirs(save_dir, exist_ok=True)
+    np.save(os.path.join(save_dir, 'roi_manual_labels.npy'),
+            np.array([1.0], dtype=np.float64))
+
 # create dummy mask labels.
 def create_dummy_masks(sess_path):
     print('Saving dummy masks')

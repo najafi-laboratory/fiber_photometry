@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from modules.DataIO import export_npy, get_digital, load_h5, qc_output_dir, read_demod, read_raw_time, resample_data, resolve_h5_path
 from modules.DffTraces import compute_dff_traces
-from modules.SaveStructureMatch import save_dff, create_dummy_ops, create_dummy_masks, move_bpod_mat, process_vol
+from modules.SaveStructureMatch import save_dff, create_dummy_ops, create_dummy_roi_manual_labels, create_dummy_masks, move_bpod_mat, process_vol
 
 # find abnormal pulse widths in digital signal.
 def pulse_anomalies(time, signal, expected_s=0.068, tolerance_s=0.010):
@@ -140,6 +140,7 @@ def run_postprocess(sess_path, plot=False):
     # save results.
     save_dff(sess_path, dff_results['F1', 'E1']['zn'])
     create_dummy_ops(sess_path)
+    create_dummy_roi_manual_labels(sess_path)
     create_dummy_masks(sess_path)
     process_vol(sess_path, result, digitals)
     move_bpod_mat(sess_path)
@@ -154,7 +155,7 @@ def run_postprocess(sess_path, plot=False):
 if __name__ == "__main__":
     
     list_sess_path = [
-        'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH33/20260614', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH33/20260612'
+        'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260825', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260827', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260828', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260829', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260831', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260901', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260902', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260812', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260813', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260814', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260817', 'C:/Users/yhuang887/Projects/joystick_double_motor_timing_202601/2p/results/YH58LG/20260818'
         ]
     for sess_path in list_sess_path:
         run_postprocess(sess_path)

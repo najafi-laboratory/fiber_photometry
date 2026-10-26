@@ -39,6 +39,7 @@ Main outputs are saved inside each session folder:
 - `dff.h5`: processed z-scored dF/F trace
 - `raw_voltages.h5`: converted digital signals
 - `masks.h5` and `suite2p/plane0/ops.npy`: compatibility files
+- `roi_manual_labels.npy`: one-element float array `[1.0]` in the session folder, marking the single photometry ROI as good in the ROI QC export format
 - `bpod_session_data.mat`: renamed behavioral session file when one `.mat` file is present
 
 Set `plot=True` in `run_postprocess(...)` to display processing and QC plots.
